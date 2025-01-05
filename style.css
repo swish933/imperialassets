@@ -1843,3 +1843,8 @@ footer a {
     box-shadow: none;
   }
 }
+
+.footerbtm a{
+  user-select: none;
+  pointer-events: none;
+}

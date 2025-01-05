@@ -34,28 +34,29 @@
             </div>
             <div class="links">
                 <a href="about.html">About </a>
-
+  
                 <div class="menu">
                     <a onclick="openDropDown()" class="businessLink" href="#">Businesses <img class="arrow"
                             src="./assets/arrowdown.svg" alt=""></a>
                     <div class="dropDown">
+                      <a href="iamlhome.html">Imp</a>
                         <a href="ical.html">iCal</a>
-                        <a href="iamlhome.html">Iaml</a>
+                  
                     </div>
                 </div>
                 <a href="careers.html">Careers</a>
                 <a href="research.html">Research</a>
-
+  
             </div>
         </div>
     </header>
-
+  
     <script>
         function toggleMenu() {
             const links = document.querySelector('.links');
             links.classList.toggle('active');
         }
-
+  
         function openDropDown() {
             const dropDown = document.querySelector(".dropDown")
             dropDown.classList.toggle("open")

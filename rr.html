@@ -1,0 +1,22 @@
+<html>
+    <head>
+        <title>ArtPlayer Demo</title>
+        <meta charset="UTF-8" />
+        <style>
+            .artplayer-app {
+                width: 400px;
+                height: 300px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="artplayer-app"></div>
+        <script src="path/to/artplayer.js"></script>
+        <script>
+          const art = new Artplayer({
+              container: '.artplayer-app',
+              url: 'path/to/video.mp4',
+          });
+        </script>
+    </body>
+</html>
