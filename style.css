@@ -100,7 +100,8 @@ header .containers {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 5px;
+  padding: 8px;
+  border-bottom: 1px solid var(--subtitle-color2);
 }
 
 header {
@@ -109,10 +110,10 @@ header {
   position: sticky;
   top: 0;
   width: 100%;
-  padding: 3px;
+  padding: 0 3px;
   z-index: 9999;
   /* Line/Bottom */
-  border-bottom: 1px solid var(--subtitle-color2);
+  /* border-bottom: 1px solid var(--subtitle-color2); */
 }
 
 .links {
@@ -196,7 +197,6 @@ header {
     url("/assets/martin-martz-X5fEKadz0Xc-unsplash\ \(1\).jpg");
 }
 
-
 .advisory {
   background-image: linear-gradient(
       rgba(34, 34, 34, 0.48),
@@ -269,7 +269,7 @@ header {
   line-height: 28px;
   text-align: left;
 }
-.missionhead{
+.missionhead {
   width: 25%;
 }
 .missionvalue {
@@ -549,11 +549,11 @@ main h2 {
   height: fit-content;
   object-fit: contain;
 }
-.labelbox{
+.labelbox {
   display: flex;
   flex-direction: column;
   width: 100%;
-  gap:2px
+  gap: 2px;
 }
 .statgrid {
   display: grid;
@@ -617,7 +617,6 @@ main h2 {
   text-align: center;
   color: #fdfdfd;
   max-width: 600px;
-
 }
 
 .herobtn {
@@ -1844,7 +1843,7 @@ footer a {
   }
 }
 
-.footerbtm a{
+.footerbtm a {
   user-select: none;
   pointer-events: none;
 }
