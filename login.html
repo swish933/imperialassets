@@ -37,30 +37,107 @@
 
     <header>
       <div class="containers" id="header">
-          <div class="logo">
-              <img src="assets/IAML Logo-01.png" alt="">
-          </div>
-          <div class="menu-toggle" onclick="toggleMenu()">
-              <span></span>
-              <span></span>
-              <span></span>
-          </div>
-          <div class="links">
-              <a href="about.html">About</a>
-              <a href="services.html">Services</a>
-              <a href="careers.html">Careers</a>
-              <a href="e-trader.html">E-Trader</a>
-         <a href="login.html" class="login">Login</a>
-         <a href="etraderform.html" class="register">Signup</a>
-          </div>
+        <div class="logo">
+          <img src="assets/IAML Logo-01.png" alt="" />
+        </div>
+        <div class="menu-toggle" onclick="toggleMenu()">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <div class="links">
+          <a href="about.html">About</a>
+          <a href="services.html">Services</a>
+          <a href="careers.html">Careers</a>
+          <a href="e-trader.html">E-Trader</a>
+          <a href="login.html" class="login">Login</a>
+          <a href="#openAccounts" class="signup-link register">Signup</a>
+          <!-- <a href="etraderform.html" class="register">Signup</a> -->
+        </div>
       </div>
-  </header>
-  <script>
+    </header>
+    <script>
       function toggleMenu() {
-          const links = document.querySelector('.links');
-          links.classList.toggle('active');
+        const links = document.querySelector(".links");
+        links.classList.toggle("active");
       }
-  </script>
+    </script>
+    <div
+      id="openAccounts"
+      style="
+        position: fixed;
+        background: rgb(0, 0, 0, 0.3);
+        top: 0;
+        height: 100%;
+        z-index: 99999;
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      "
+    >
+      <div class="git" style="position: relative">
+        <span
+          id="closeModal"
+          style="
+            font-size: 1rem;
+            border: 1px solid rgb(51, 50, 50);
+            padding: 0 10px;
+            position: absolute;
+            right: 0.5rem;
+            top: 5px;
+            cursor: pointer;
+          "
+          >x</span
+        >
+        <div class="faqtitle">Open an account with us</div>
+        <div class="faqsubtitle">
+          Imperial-trader, you can trade your securities online, in real time
+          with as little as a minimum account opening balance of N5,000 only
+          from wherever you are. We provide a comprehensive range of services to
+          meet and execute on your investment requirements
+        </div>
+
+        <div class="btns">
+          <button id="individual-account-btn">
+            Open an Individual Account
+          </button>
+          <button id="corporate-account-btn">Open a Corporate Account</button>
+
+          <script>
+            document.addEventListener("DOMContentLoaded", () => {
+              const signupLink = document.querySelectorAll(".signup-link");
+              const openAccounts = document.getElementById("openAccounts");
+              const closeModal = document.getElementById("closeModal");
+
+              signupLink.forEach((link) => {
+                link.addEventListener("click", (e) => {
+                  e.preventDefault();
+                  openAccounts.style.display = "flex";
+                });
+              });
+              closeModal.addEventListener("click", () => {
+                openAccounts.style.display = "none";
+              });
+
+              const individualAccountBtn = document.getElementById(
+                "individual-account-btn"
+              );
+              const corporateAccountBtn = document.getElementById(
+                "corporate-account-btn"
+              );
+
+              individualAccountBtn.addEventListener("click", () => {
+                window.location.href = "etraderform.html";
+              });
+              corporateAccountBtn.addEventListener("click", () => {
+                window.location.href = "ecorporateform.html";
+              });
+            });
+          </script>
+        </div>
+      </div>
+    </div>
     <div class="ovl"></div>
     <main>
       <div class="containers etarderform login">
@@ -72,7 +149,6 @@
 
         <br />
         <div class="logincontainer">
-
           <div class="fblk">
             <input type="text" placeholder="Surname" />
           </div>
@@ -80,9 +156,7 @@
           <div class="fblk">
             <input type="text" placeholder="Surname" />
           </div>
-          <div class="forgottxt">
-            Forgot your password?
-          </div>
+          <div class="forgottxt">Forgot your password?</div>
 
           <div class="fblk">
             <!-- <button>Previous</button> -->
@@ -90,127 +164,99 @@
           </div>
 
           <div class="ctxt">
-            Don't have an account? <span class="forgottxt">Sign Up</span> 
+            Don't have an account?
+            <a href="#openAccounts" class="signup-link forgottxt">Signup</a>
           </div>
         </div>
-     
-
-
-
       </div>
     </main>
 
     <footer>
-
-
       <div class="containers">
-          <div class="footersec">
-              <div class="footertop">Explore</div>
-              <div class="footerbtm">
-                  <a href="about.html">
-                      About
-
-                  </a>
-                  <a href="services.html">
-
-                      Board of Directors
-
-                  </a>
-                  <a href="services.html">
-
-                      Management
-
-                  </a>
-                  <a href="careers.html">
-
-                      Careers
-                  </a>
-
-              </div>
+        <div class="footersec">
+          <div class="footertop">Explore</div>
+          <div class="footerbtm">
+            <a href="about.html"> About </a>
+            <a href="services.html"> Board of Directors </a>
+            <a href="services.html"> Management </a>
+            <a href="careers.html"> Careers </a>
           </div>
+        </div>
 
-          <div class="footersec">
-              <div class="footertop">Our Businesses</div>
-              <div class="footerbtm">
-                  <a href="iaml.html">Imperial Asset Managers Limited</a>
-                  <a href="ical.html">Imperial Capital Advisers Limited</a>
-
-
-
-              </div>
+        <div class="footersec">
+          <div class="footertop">Our Businesses</div>
+          <div class="footerbtm">
+            <a href="iaml.html">Imperial Asset Managers Limited</a>
+            <a href="ical.html">Imperial Capital Advisers Limited</a>
           </div>
+        </div>
 
-          <div class="footersec">
-              <div class="footertop">Our Newsfeed</div>
-              <div class="footerbtm">
-                  <a href=""> All News</a>
-                  <a href="research.html">Research and Insights</a>
-                  <a href="">Blog</a>
-                  <a href="">Policies</a>
-                  <a href="">Terms & Conditions</a>
-              </div>
+        <div class="footersec">
+          <div class="footertop">Our Newsfeed</div>
+          <div class="footerbtm">
+            <a href=""> All News</a>
+            <a href="research.html">Research and Insights</a>
+            <a href="">Blog</a>
+            <a href="">Policies</a>
+            <a href="">Terms & Conditions</a>
           </div>
+        </div>
 
-
-          <div class="footersec">
-              <div class="footertop">Subscribe to our newsletter</div>
-              <div class="footerbtm">
-                  Weekly email about trends shaping markets, industries and the global
-                  economy.
-              </div>
-              <input type="text" class="footerinput">
-              <button>Submit</button>
+        <div class="footersec">
+          <div class="footertop">Subscribe to our newsletter</div>
+          <div class="footerbtm">
+            Weekly email about trends shaping markets, industries and the global
+            economy.
           </div>
+          <input type="text" class="footerinput" />
+          <button>Submit</button>
+        </div>
 
-
-          <div class="footersec">
-              <div class="footertop">Office Address</div>
-              <div class="footerbtm">
-                  <a href=""><b>Lagos Office:</b></a>
-                  <a href="">THE EBENEZER PLACE 148A, Ikeja Way Off Association Road Dolphin Estate, Ikoyi, Lagos.</a>
-
-              </div>
+        <div class="footersec">
+          <div class="footertop">Office Address</div>
+          <div class="footerbtm">
+            <a href=""><b>Lagos Office:</b></a>
+            <a href=""
+              >THE EBENEZER PLACE 148A, Ikeja Way Off Association Road Dolphin
+              Estate, Ikoyi, Lagos.</a
+            >
           </div>
+        </div>
 
-          <div class="footersec">
-              <div class="footertop">Reach Us</div>
-              <div class="footerbtm">
-                  <a href=""><b>Send a Message</b></a>
-                  <a href="mailto:talk2us@imperialasset.com.ng">talk2us@imperialasset.com.ng</a>
-                  <a href="#">
-
-
-                      234 -1- 4637483, 08067035949, 09125007249
-
-                  </a>
-
-              </div>
+        <div class="footersec">
+          <div class="footertop">Reach Us</div>
+          <div class="footerbtm">
+            <a href=""><b>Send a Message</b></a>
+            <a href="mailto:talk2us@imperialasset.com.ng"
+              >talk2us@imperialasset.com.ng</a
+            >
+            <a href="#"> 234 -1- 4637483, 08067035949, 09125007249 </a>
           </div>
-          <div class="footersec">
-              <img src="assets/COMP.png" alt="">
-          </div>
+        </div>
+        <div class="footersec">
+          <img src="assets/COMP.png" alt="" />
+        </div>
       </div>
-  </footer>
+    </footer>
 
     <script>
-    
-const fetchMarketData = async () => {
-  try {
-    const response = await fetch('https://doclib.ngxgroup.com/REST/api/statistics/equities/?market=&sector=&orderby=&pageSize=900&pageNo=0');
-    if (!response.ok) {
-      throw new Error(`Error: ${response.status}`);
-    }
-    const data = await response.json();
-    console.log(data);
-  } catch (error) {
-    console.error('Failed to fetch market data:', error);
-  }
-};
+      const fetchMarketData = async () => {
+        try {
+          const response = await fetch(
+            "https://doclib.ngxgroup.com/REST/api/statistics/equities/?market=&sector=&orderby=&pageSize=900&pageNo=0"
+          );
+          if (!response.ok) {
+            throw new Error(`Error: ${response.status}`);
+          }
+          const data = await response.json();
+          console.log(data);
+        } catch (error) {
+          console.error("Failed to fetch market data:", error);
+        }
+      };
 
-// Run the fetch function
-fetchMarketData();
-
-    
+      // Run the fetch function
+      fetchMarketData();
     </script>
   </body>
 </html>
