@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+
     <title>
       Imperial Asset Managers Limited – We are Imperial….Proudly Imperial
     </title>
@@ -13,29 +13,13 @@
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
     />
   </head>
-  <body>
+  <body class="blurred">
     <div class="overlay" id="overlay"></div>
 
     <!-- Popup -->
-    <div class="popup" id="popup">
-      <div class="popup-content">
-        <div class="popuptop">
-          To access this research, kindly create an account.
-          <div class="close-bt" onclick="closePopup()">x</div>
-        </div>
-        <div class="myform">
-          <div class="formtitle">Creat an Account</div>
-          <input type="text" placeholder="First Name" />
-          <input type="email" placeholder="Email" />
-          <input type="text" placeholder="Phone Number" />
-          <input type="text" placeholder="Country" />
-          <input type="password" placeholder="Password" />
-          <button>Submit</button>
-        </div>
-      </div>
-    </div>
 
-    <header>
+
+  <header>
       <div class="containers" id="header">
           <div class="logo">
               <img src="assets/IAML Logo-01.png" alt="">
@@ -46,15 +30,33 @@
               <span></span>
           </div>
           <div class="links">
-              <a href="about.html">About</a>
-              <a href="services.html">Services</a>
-              <a href="careers.html">Careers</a>
-              <a href="e-trader.html">E-Trader</a>
-         <a href="login.html" class="login">Login</a>
-         <a href="etraderform.html" class="register">Signup</a>
+    
+         <a href="login.html" class="login">Logout</a>
+ 
           </div>
       </div>
   </header>
+
+  <style>
+    .fblk p{
+      color: #474747d0;
+
+    }
+    .fblk textarea{
+      border: 1px solid var(--border-color);
+  padding: 11px;
+  width: 100%;
+  margin-top: 10px;
+  font-family: Poppins;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16.16px;
+  text-align: left;
+  color: var(--subtitle-color3);
+  border-radius: 3px;
+  resize: none;
+    }
+  </style>
   <script>
       function toggleMenu() {
           const links = document.querySelector('.links');
@@ -62,59 +64,131 @@
       }
   </script>
     <div class="ovl"></div>
-    <main>
+    <main id="content" class="hidden">
       <div class="containers etarderform">
         <br />
         <br />
-        <h1>Individual account opening form</h1>
-        <p>Account Informaton</p>
+        <h1> </h1>
+        <p> <a href="admindashboard.html">  <   users Account Informaton </a> </p>
         <div class="formprogress">
-          <div class="progressdata">3 <span>/4</span></div>
+
         </div>
         <br />
 
-        <div class="etraderformgrid">
+        <div id="etraderformgrid" class="etraderformgrid"></div>
 
+        <script>
+     document.addEventListener("DOMContentLoaded", () => {
+  // Get the customer_number from the query parameter
+  const urlParams = new URLSearchParams(window.location.search);
+  const customerNumber = urlParams.get("customer_number");
 
+  // API endpoint
+  const apiEndpoint = `https://marketreports.vercel.app/submissions/${customerNumber}/`;
 
+  // Fetch user data from the API
+  fetch(apiEndpoint)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`Failed to fetch data: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      // Select the container where the data will be appended
+      const container = document.getElementById("etraderformgrid");
+      let htmlContent = "";
 
-          <div class="fblk">
-            <select name="" id="">
-              <option value="">Select Bank</option>
-              <option value="">Nigeria</option>
-              <option value="">Ghana</option>
-            </select>
-            <input type="text" placeholder="Account Number" />
-          </div>
-          <div class="fblk">
-            <input type="text" placeholder="Account Name" />
-          </div>
+      // Custom order for rendering: "last-name", "first-name", "email" followed by other fields
+      const keys = ["last-name", "first-name", "email"];
+      
+      // Add custom fields in the defined order
+      keys.forEach(key => {
+        if (data.data[key]) {
+          htmlContent += `
+            <div class="fblk" style="display: flex; flex-direction: column; gap: 5px;">
+              <label>${key.replace(/-/g, " ")}</label>
+              <textarea readonly>${data.data[key]}</textarea>
+            </div>
+          `;
+        }
+      });
 
-  
+      // Append the remaining fields in no particular order
+      Object.entries(data.data).forEach(([key, value]) => {
+        if (!keys.includes(key)) {
+          htmlContent += `
+            <div class="fblk" style="display: flex; flex-direction: column; gap: 5px;">
+              <label>${key.replace(/-/g, " ")}</label>
+              <textarea readonly>${value || "N/A"}</textarea>
+            </div>
+          `;
+        }
+      });
 
-          <div class="fblk">
-            <input type="text" placeholder="BVN" />
-          </div>
+      // Insert the generated HTML into the container
+      container.innerHTML = htmlContent;
+    })
+    .catch((error) => {
+      console.error("Error fetching data:", error);
+    });
+});
 
- 
+        </script>
 
-    
-
-
-
-   
-        </div>
-
-        <div class="termstxt">
+        <!-- <div class="termstxt">
           By opening this account you are hereby agreeing to the terms and condition of the imperial asset managers limited. I/We hereby irrevocable release the company from all liability in the event that any telephone, text messages, e-mail,  facsimile transmission or letter is not received, or is mutilated, altered, illegible or interrupted, duplicated, incomplete, 
  unauthorized, or delayed for any reason.
-        </div>
+        </div> -->
         <div class="fblk etraderformgrid">
           <!-- <button>Previous</button> -->
-          <button>Next</button>
+          <button>Print</button>
         </div>
       </div>
     </main>
+
+
+
+
+    <script>
+      // Helper function to set a cookie
+      function setCookie(name, value, minutes) {
+        const expires = new Date(Date.now() + minutes * 60000).toUTCString();
+        document.cookie = `${name}=${value}; expires=${expires}; path=/`;
+      }
+  
+      // Helper function to get a cookie
+      function getCookie(name) {
+        const cookies = document.cookie.split("; ");
+        for (const cookie of cookies) {
+          const [key, value] = cookie.split("=");
+          if (key === name) return value;
+        }
+        return null;
+      }
+  
+      // Check if access is already granted
+      if (getCookie("access") === "granted") {
+        document.body.classList.remove("blurred");
+        document.getElementById("content").classList.remove("hidden");
+      } else {
+        // Ask for the password
+        const password = prompt("Enter the password to access the page:");
+  
+        if (password === "Imp3r$al") {
+          // Correct password: grant access
+          setCookie("access", "granted", 30); // Grant access for 30 minutes
+          document.body.classList.remove("blurred");
+          document.getElementById("content").classList.remove("hidden");
+        } else {
+          // Incorrect password: show error and restrict access
+          alert("Incorrect password. Please reload the page to try again.");
+          document.body.style.display = "none"; // Hide the body to restrict access
+        }
+      }
+    </script>
+
+
 
     <footer>
 
