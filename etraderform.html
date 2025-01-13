@@ -3,7 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
     <title>
       Imperial Asset Managers Limited – We are Imperial….Proudly Imperial
     </title>
@@ -498,12 +497,108 @@
               </div>
             </div>
             <div class="fblk btnk etraderformgrid">
-              <button type="button" onclick="prevStep(4)" class="whitebtn">Previous</button>
+              <button type="button" onclick="prevStep(5)" class="whitebtn">Previous</button>
+              <button type="button" onclick="nextStep(5)">Submit</button>
+            </div>
+          </div>
+
+          <div class="step step-6 hidden">
+            <h3>Step 5: Upload Documents</h3>
+            <br>
+            <div class="etraderformgrid">
+              <!-- Live Photo -->
+              <div class="fblk">
+                <label for="live-photo">Upload Recent Photo</label>
+                <input type="file" id="live-photo" accept="image/*" capture="user" onchange="handleFileUpload('live-photo', 'live-photo-preview', 'live-photo-url')" />
+                <img id="live-photo-preview" class="preview-img hidden" alt="Live Photo Preview" />
+                <input type="hidden" id="live-photo-url" name="live-photo-url" />
+              </div>
+          
+              <!-- Utility Bill -->
+              <div class="fblk">
+                <label for="utility-bill">Upload Utility Bill</label>
+                <input type="file" id="utility-bill" accept="image/*,application/pdf" onchange="handleFileUpload('utility-bill', 'utility-bill-preview', 'utility-bill-url')" />
+                <img id="utility-bill-preview" class="preview-img hidden" alt="Utility Bill Preview" />
+                <input type="hidden" id="utility-bill-url" name="utility-bill-url" />
+              </div>
+          
+              <!-- Proof of Identity -->
+              <div class="fblk">
+                <label for="proof-identity">Upload Proof of Identity</label>
+                <input type="file" id="proof-identity" accept="image/*,application/pdf" onchange="handleFileUpload('proof-identity', 'proof-identity-preview', 'proof-identity-url')" />
+                <img id="proof-identity-preview" class="preview-img hidden" alt="Proof of Identity Preview" />
+                <input type="hidden" id="proof-identity-url" name="proof-identity-url" />
+              </div>
+            </div>
+          
+            <!-- Navigation Buttons -->
+            <div class="fblk btnk etraderformgrid">
+              <button type="button" onclick="prevStep(6)" class="whitebtn">Previous</button>
               <button type="submit">Submit</button>
             </div>
           </div>
+          
+          <script>
+            function handleFileUpload(inputId, previewId, hiddenInputId) {
+              const fileInput = document.getElementById(inputId);
+              const previewImage = document.getElementById(previewId);
+              const hiddenInput = document.getElementById(hiddenInputId);
+          
+              if (fileInput.files.length === 0) {
+                alert("Please select a file.");
+                return;
+              }
+          
+              const file = fileInput.files[0];
+              const formData = new FormData();
+              formData.append("user-file", file);
+          
+              // Display a preview for image files
+              if (file.type.startsWith("image/")) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                  previewImage.src = e.target.result;
+                  previewImage.classList.remove("hidden");
+                };
+                reader.readAsDataURL(file);
+              }
+          
+              // Upload the file
+              fetch("https://review.imperialasset.com.ng/upload.php", {
+                method: "POST",
+                body: formData,
+              })
+                .then(response => response.json())
+                .then(data => {
+                  if (data.success) {
+                    alert("File uploaded successfully!");
+                    hiddenInput.value = data.fileUrl; // Set the file URL in the hidden input
+                  } else {
+                    alert("Upload failed:");
+                  }
+                })
+                .catch(error => {
+                  alert("An error occurred:");
+                });
+            }
+          </script>
+
         </form>
       </div>
+<style>
+  .preview-img {
+  display: block;
+  margin-top: 10px;
+  max-width: 100%;
+  height: auto;
+  max-height: 300px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  object-fit: cover;
+}
+</style>
+
+      
   <style>
          .hidden {
         display: none;
@@ -518,7 +613,7 @@
   </style>
 <script>
   let currentStep = 1;
-  const totalSteps = 5;
+  const totalSteps = 6;
   const steps = document.querySelectorAll(".step");
   const progressText = document.getElementById("progress-text");
 
@@ -564,36 +659,56 @@
   }
 
   document.getElementById("multistep-form").onsubmit = async function (e) {
-      e.preventDefault();
+    e.preventDefault();
 
-      const formData = {};
-      const inputs = document.querySelectorAll("#multistep-form input, #multistep-form select");
-      inputs.forEach((input) => {
-          formData[input.id] = input.value;
-      });
+    const requiredFields = ["live-photo-url", "utility-bill-url", "proof-identity-url"];
+    const formData = {};
 
-      // Send data to PHP endpoint
-      try {
-          const response = await fetch("https://marketreports.vercel.app/api/form-submission/", {
-              method: "POST",
-              headers: {
-                  "Content-Type": "application/json",
-              },
-              body: JSON.stringify(formData),
-          });
+    // Check for missing file uploads
+    let missingFields = [];
+    requiredFields.forEach((field) => {
+        const value = document.getElementById(field).value;
+        if (!value) {
+            missingFields.push(field.replace("-url", "").replace(/-/g, " ")); // Format the field name
+        } else {
+            formData[field] = value; // Add only the URLs to formData
+        }
+    });
 
-          const result = await response.json();
-          if (result.status === "success") {
-              alert("Form submitted successfully!");
-              window.location.href = '/';
-          } else {
-              alert("Error: " + result.message);
-          }
-      } catch (error) {
-          console.error("Error submitting form:", error);
-          alert("An error occurred while submitting the form.");
-      }
-  };
+    // If any required file is missing, show an error
+    if (missingFields.length > 0) {
+        alert(`Please upload the following file(s): ${missingFields.join(", ")}`);
+        return;
+    }
+
+    // Include other form inputs (excluding file inputs)
+    const inputs = document.querySelectorAll("#multistep-form input:not([type='file']), #multistep-form select");
+    inputs.forEach((input) => {
+        formData[input.id] = input.value;
+    });
+
+    // Send data to PHP endpoint
+    try {
+        const response = await fetch("https://marketreports.vercel.app/api/form-submission/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+        });
+
+        const result = await response.json();
+        if (result.status === "success") {
+            alert("Form submitted successfully!");
+            window.location.href = '/';
+        } else {
+            alert("Error: " + result.message);
+        }
+    } catch (error) {
+        console.error("Error submitting form:", error);
+        alert("An error occurred while submitting the form.");
+    }
+};
 
   // Initial step setup
   showStep(currentStep);

@@ -78,7 +78,7 @@
         <div id="etraderformgrid" class="etraderformgrid"></div>
 
         <script>
-     document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {
   // Get the customer_number from the query parameter
   const urlParams = new URLSearchParams(window.location.search);
   const customerNumber = urlParams.get("customer_number");
@@ -101,9 +101,11 @@
 
       // Custom order for rendering: "last-name", "first-name", "email" followed by other fields
       const keys = ["last-name", "first-name", "email"];
-      
+      const requiredFields = ["live-photo-url", "utility-bill-url", "proof-identity-url"];
+      const imageFields = {};
+
       // Add custom fields in the defined order
-      keys.forEach(key => {
+      keys.forEach((key) => {
         if (data.data[key]) {
           htmlContent += `
             <div class="fblk" style="display: flex; flex-direction: column; gap: 5px;">
@@ -114,9 +116,11 @@
         }
       });
 
-      // Append the remaining fields in no particular order
+      // Separate required image fields from the rest
       Object.entries(data.data).forEach(([key, value]) => {
-        if (!keys.includes(key)) {
+        if (requiredFields.includes(key) && value) {
+          imageFields[key] = value; // Save image fields separately
+        } else if (!keys.includes(key)) {
           htmlContent += `
             <div class="fblk" style="display: flex; flex-direction: column; gap: 5px;">
               <label>${key.replace(/-/g, " ")}</label>
@@ -124,6 +128,16 @@
             </div>
           `;
         }
+      });
+
+      // Append image fields last
+      Object.entries(imageFields).forEach(([key, value]) => {
+        htmlContent += `
+          <div class="fblk" style="display: flex; flex-direction: column; gap: 5px;">
+            <label>${key.replace(/-/g, " ")}</label>
+            <img src="${value}" alt="${key.replace(/-/g, " ")} Preview" class="preview-img" />
+          </div>
+        `;
       });
 
       // Insert the generated HTML into the container
