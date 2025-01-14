@@ -839,9 +839,7 @@ main {
 footer {
   margin-top: 60px;
   border-top: 5px solid #bfa162;
-
   background: #737171;
-
   padding: 10px;
   display: flex;
   flex-direction: column;
@@ -853,10 +851,10 @@ footer {
   color: white;
 }
 footer .containers {
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: 18% 32% 25% 25%;
   margin-top: 20px;
   grid-gap: 10px;
-  gap: 10px;
+  /* gap: 10px; */
   display: grid;
 }
 .footerbtm a {
@@ -1581,6 +1579,24 @@ footer a {
     padding: 20px;
   }
 }
+@media (min-width: 778px) and (max-width: 1150px) {
+  footer .containers {
+    grid-template-columns: 33.3% 26.3% 40.3%;
+  }
+
+  .footersec:nth-child(4) {
+    grid-column: 3/4;
+    grid-row: 1/2;
+  }
+  .footersec:nth-child(3) {
+    grid-column: 2/3;
+    grid-row: 1/2;
+  }
+  .footersec:nth-child(8) {
+    grid-column: 3/4;
+    grid-row: 3/4;
+  }
+}
 
 @media (max-width: 1008px) {
   .links {
@@ -1702,6 +1718,22 @@ footer a {
   }
 }
 
+@media (max-width: 800px) {
+  footer .containers {
+    grid-template-columns: 27.3% 26.3% 46.3%;
+  }
+}
+@media screen and (max-width: 777px) {
+  footer .containers {
+    grid-template-columns: 40% 60%;
+  }
+}
+@media screen and (max-width: 638px) {
+  footer .containers {
+    grid-template-columns: 100%;
+  }
+}
+
 .footersec img {
   width: 100%;
   object-fit: contain;
@@ -1746,9 +1778,10 @@ footer a {
     display: flex;
     gap: 10px;
     flex-direction: column;
-    width: 100%;
+    width: auto;
     gap: 14px;
   }
+
   .logincontainer {
     display: flex;
     flex-direction: column;
@@ -1843,9 +1876,9 @@ footer a {
   }
 }
 
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 1280px) {
   footer .map {
-    margin-right: 20px;
+    margin-right: 50px;
   }
 }
 
