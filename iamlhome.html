@@ -49,60 +49,82 @@
         </div>
         <!-- <iframe style="overflow: hidden; border: none" src="https://dataex.nasdotcng.com/market_snapshot2/price_ticker" width="100%" height="30" scrolling="no"><span style="display: inline-block; width: 0px; overflow: hidden; line-height: 0;" data-mce-type="bookmark" class="mce_SELRES_start">&#xFEFF;</span></iframe> -->
         <div style="padding: 2rem 0">
-            <div class="ticker">
-              <div class="ticker-content">
-                <p>SDAGMBANK 0.4800000000 — &nbsp;</p>
-                <p>0.00%SDAIRLIQ 8.0000000000 — &nbsp;</p>
-                <p>0.00%SDCAPDBETO 33.0000000000 — &nbsp;</p>
-                <p>0.00%SDCOSTAIN 0.5000000000 — &nbsp;</p>
-                <p>0.00%SDCRSBURA 1.0000000000 — &nbsp;</p>
-                <p>0.00%SDCRS</p>
-                <!-- Duplicate content for seamless scroll -->
-                <p>SDAGMBANK 0.4800000000 — &nbsp;</p>
-                <p>0.00%SDAIRLIQ 8.0000000000 — &nbsp;</p>
-                <p>0.00%SDCAPDBETO 33.0000000000 — &nbsp;</p>
-                <p>0.00%SDCOSTAIN 0.5000000000 — &nbsp;</p>
-                <p>0.00%SDCRSBURA 1.0000000000 — &nbsp;</p>
-                <p>0.00%SDCRS</p>
-              </div>
+          <div class="ticker">
+            <div class="ticker-content" id="tickerContent">
             </div>
           </div>
-    </header>
-    <style>
-        .ticker {
-          overflow: hidden;
-          white-space: nowrap;
-          position: relative;
-          width: 95%;
-          max-width: 1250px;
-          padding: 0 10px;
-          margin: 0 auto;
-          border-left: 28px solid #bfa162;
-          border-right: 28px solid #bfa162;
-          line-height: 18px;
+        </div>
+  </header>
+  <style>
+      .ticker {
+        overflow: hidden;
+        white-space: nowrap;
+        position: relative;
+        width: 95%;
+        max-width: 1250px;
+        padding: 0 10px;
+        margin: 0 auto;
+        border-left: 28px solid #bfa162;
+        border-right: 28px solid #bfa162;
+        line-height: 18px;
+      }
+
+      .ticker-content {
+        display: inline-flex;
+        animation: ticker-scroll 110s linear infinite;
+        padding-top: 2px;
+      }
+
+      .ticker-content p {
+        white-space: nowrap;
+        font-size: 1.193rem;
+        color: #3d3c3a;
+      }
+
+      @keyframes ticker-scroll {
+        0% {
+          transform: translate3d(0, 0, 0);
         }
-  
-        .ticker-content {
-          display: inline-flex;
-          animation: ticker-scroll 30s linear infinite;
-          padding-top: 2px;
+        100% {
+          transform: translate3d(-50%, 0, 0);
         }
-  
-        .ticker-content p {
-          white-space: nowrap;
-          font-size: 1.193rem;
-          color: #3d3c3a;
-        }
-  
-        @keyframes ticker-scroll {
-          0% {
-            transform: translate3d(0, 0, 0);
+      }
+  </style>
+
+  <script>
+      const tickerContainer = document.getElementById("tickerContent");
+      const fetchAndDisplay = async () => {
+          try {
+              const response = await fetch("https://finmktapi.issl.ng/market_data?product_class=eq.Equities_Price_List");
+              if (!response.ok) {
+                  throw new Error(`HTTP error! Status: ${response.status}`);
+              }
+              const data = await response.json();
+              console.log("Response data:", data[0].product_data)
+              const equityData = data[0].product_data
+              equityData.map((data) => {
+                  const tickerData = `
+                  <p>
+                      <span 
+                          style="color: ${
+                              data.Change === 0 || 
+                              data.Change === null ? '#303030' : 
+                              data.Change < 0 ? '#cb3532' : 'green'
+                          }">
+                          ${data.Symbol} ${data.ClosePrice}
+                      </span> 
+                      <span style='color: grey'> — &nbsp;</span>
+                  </p>
+                  `;
+                  tickerContainer.insertAdjacentHTML("beforeend", tickerData);
+              });
+
+          } catch (err) {
+              console.error("Fetch error:", err);
           }
-          100% {
-            transform: translate3d(-50%, 0, 0);
-          }
-        }
-      </style>
+      };
+      fetchAndDisplay();
+  </script>
   
 <style>
     .dropDown{
