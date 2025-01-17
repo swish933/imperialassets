@@ -1787,7 +1787,7 @@ footer a {
     display: flex;
     gap: 10px;
     flex-direction: column;
-    width: auto;
+    /* width: auto; */
     gap: 14px;
   }
 
@@ -1796,6 +1796,9 @@ footer a {
     flex-direction: column;
     gap: 10px;
     width: 89%;
+  }
+  .etraderformgrid {
+    grid-template-columns: 100%;
   }
   .etraderformgrid button {
     margin-top: 10px;

@@ -283,7 +283,7 @@ height: 40px;
 
 
 <!-- 
-       <footer>
+      <footer>
       <div class="containers">
         <div class="footersec">
           <div class="footertop">Explore</div>
@@ -328,7 +328,7 @@ height: 40px;
           <div class="marg">
             <h6 class="footertop" style="font-size: 16px; margin-bottom: 8px;">IMP Office Address</h6>
             <div class="footerbtm">
-      
+
               <a href=""
                 >THE IMPERIAL PLACE <br />
                 24A, Mainland Way <br />
@@ -376,14 +376,29 @@ height: 40px;
 
            
             <div class="reach">
-              <span><img src="./assets/envelope-solid.svg" alt="email address" /> <a href="mailto:talk2us@imperialasset.com.ng"
-                >talk2us@imperialasset.com.ng</a
-              > </span>
+              <div>
+                <span><img src="./assets/envelope-solid.svg" alt="email address" /><span class="sp">IMP Email</span></span>
+                <span><img style="visibility: hidden;" src="./assets/envelope-solid.svg" alt="email address" /> <a class="no-copy" href="mailto:talk2us@imperialasset.com.ng"
+                  >talk2us@imperialasset.com.ng</a
+                > </span>
+              </div>
+              <div>
+                <span><img src="./assets/envelope-solid.svg" alt="email address" /><span class="sp">ICAL Email</span></span>
+                <span><img style="visibility: hidden;" src="./assets/envelope-solid.svg" alt="email address" /> <a class="no-copy" href="mailto:talk2capitaladvisers@imperialasset.com.ng"
+                  >talk2capitaladvisers@imperial<br/>asset.com.ng</a
+                > </span>
+              </div>
               <span><img src="./assets/phone-solid.svg" alt="phone" />234-706 043 5102 </span>
               <span><img src="./assets/phone-solid.svg" alt="phone"  />234-806 703 5949</span>
               <span><img src="./assets/phone-solid.svg" alt="phone"  />234-912 500 7249</span>
 
               <style>
+                .no-copy {
+                  user-select: none;
+                  -webkit-user-select: none;
+                  -moz-user-select: none;
+                  -ms-user-select: none;
+                }
                 .reach{
                   display: flex;
                   flex-direction: column;
@@ -396,6 +411,14 @@ height: 40px;
                 }
                 .reach img{
                   width: 15px;
+                }
+                .reach .sp{
+                  font-weight: 500;
+                  color: white;
+                }
+                .reach div{
+                  line-height: 20px;
+                  margin-bottom: 10px;
                 }
               </style>
             </div>

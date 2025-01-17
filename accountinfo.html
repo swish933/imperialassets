@@ -53,25 +53,353 @@
         resize: none;
       }
     </style>
+
     <script>
       function toggleMenu() {
         const links = document.querySelector(".links");
         links.classList.toggle("active");
       }
     </script>
+
     <div class="ovl"></div>
-    <main id="content" class="hidden">
-      <div class="containers etarderform">
+    <main class="hidden">
+      <div class="containers etarderform" style="max-width: 794px">
         <br />
         <br />
         <h1></h1>
-        <p><a href="admindashboard.html"> < users Account Informaton </a></p>
+        <p>
+          <a
+            href="admindashboard.html"
+            style="
+              font-size: 2rem;
+              display: flex;
+              gap: 4px;
+              align-items: center;
+              color: #303030;
+            "
+          >
+            &larr; <span style="font-size: 1.2rem">Back</span></a
+          >
+        </p>
         <div class="formprogress"></div>
         <br />
 
-        <div id="etraderformgrid" class="etraderformgrid"></div>
+        <div id="content"></div>
+        <style>
+          .kyc-form {
+            max-width: 794px;
+          }
+
+          .form-row input[type="text"],
+          input[type="date"],
+          textarea {
+            flex: 1 0 190px;
+          }
+
+          .text {
+            width: 154px;
+          }
+        </style>
 
         <script>
+          document.addEventListener("DOMContentLoaded", () => {
+            // Get the customer_number from the query parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const customerNumber = urlParams.get("customer_number");
+
+            function formatDate(dateObj) {
+              return new Date(dateObj).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              });
+            }
+
+            const formatString = (string) => {
+              const formatedNumber = new Intl.NumberFormat("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              }).format(string);
+              return formatedNumber;
+            };
+
+            // API endpoint
+            const apiEndpoint = `https://marketreports.vercel.app/submissions/${customerNumber}/`;
+
+            // Fetch user data from the API
+            fetch(apiEndpoint)
+              .then((response) => {
+                if (!response.ok) {
+                  throw new Error(`Failed to fetch data: ${response.status}`);
+                }
+                return response.json();
+              })
+              .then((data) => {
+                console.log(data);
+                const user = data.data;
+                const {
+                  "account-name": accountName,
+                  "account-number": accountNumber,
+                  "annual-income": annualIncome,
+                  "bank-name": bankName,
+                  "company-name": companyName,
+                  country,
+                  dob,
+                  email,
+                  "expected-amount": expectedAmount,
+                  "first-name": firstName,
+                  gender,
+                  "home-address": homeAddress,
+                  "home-phone": homePhone,
+                  "id-number": idNumber,
+                  "id-type": idType,
+                  "introduced-by": introducedBy,
+                  "job-title": jobTitle,
+                  landmark,
+                  "last-name": lastName,
+                  lga,
+                  "live-photo-url": livePhoto,
+                  "marital-status": maritalStatus,
+                  "middle-name": middleName,
+                  "mothers-name": mothersName,
+                  nationality,
+                  occupation,
+                  "office-address": officeAddress,
+                  "office-phone": officePhone,
+                  "other-income": otherIncome,
+                  phone,
+                  "proof-identity-url": proofIdentity,
+                  religion,
+                  "residential-address": residentialAddress,
+                  "self-employed": selfEmployed,
+                  "source-funds": sourceFunds,
+                  state,
+                  title,
+                  "utility-bill-url": utilityBill,
+                } = user;
+
+                const userContainer = document.getElementById("content");
+                const styles = `
+                <style>
+                   @media all {
+                  .kyc-form {
+                    max-width: 740px;
+                    margin: 0 auto;
+                    background: #ffffff;
+                    padding: 20px;
+                    border: 1px solid #ccc;
+                    border-radius: 5px;
+                  }
+
+                    h1 {
+                      font-size: 20px;
+                      font-weight: 500;
+                      margin-bottom: 15px;
+                    }
+
+                  p {
+                    margin: 15px 0 10px 0;
+                    font-size: 17px;
+                    font-weight: 500;
+                  }
+
+                  form {
+                    font-size: 14px;
+                  }
+
+                  .form-row {
+                    display: flex;
+                    flex-wrap: wrap;
+                    align-items: end;
+                  }
+
+                  label {
+                    /* flex: 1 0 200px; */
+                    font-weight: 500;
+                    color: #414040;
+                    margin-right: 2px;
+                    margin-bottom: 15px;
+                  }
+
+                   .form-row input[type="text"],
+                  input[type="date"],
+                  textarea {
+                    flex: 1 0 140px;
+                    padding: 5px;
+                    margin-right: 10px;
+                    margin-bottom: 15px;
+                    border: 1px solid #3b3b3b;
+                  }
+
+                  .checked {
+                    margin-bottom: 20px;
+                    margin-right: 15px;
+                    transform: scale(1.5);
+                  }
+
+                  .text {
+                    width: 136px;
+                    padding: 5px;
+                    margin-right: 10px;
+                    margin-bottom: 15px;
+                    border: 1px solid #3b3b3b;
+                  }
+
+                  .lab {
+                    margin-right: 10px;
+                  }
+
+                  textarea {
+                    resize: none;
+                    height: 60px;
+                  }
+
+                  input[type="checkbox"] {
+                    margin-left: 5px;
+                  }
+
+                  form p {
+                    flex: 1 0 100%;
+                  }  }
+                </style>
+              `;
+
+                const customerData = `
+                 ${styles}
+                  <div class="kyc-form">
+                    <h1>KYC Customer Profile</h1>
+                    <form>
+                      <div class="form-row">
+                        <label>Date</label>
+                        <input type="text" value="${formatDate(
+                          data.submitted_at
+                        )}" readonly />
+                        <label>Bank</label>
+                        <input type="text" value="${bankName}" readonly />
+                        <label>A/C No</label>
+                        <input type="text" value="${accountNumber}" readonly />
+                        <label>Name</label>
+                        <input type="text" value="${accountName}" readonly />
+                        <label>Nationality</label>
+                        <input type="text" value="${nationality}" readonly />
+                      </div>
+                      <div class="form-row">
+                        <label>Address (Office)</label>
+                        <input type="text" value="${officeAddress}, Lagos" readonly />
+                      </div>
+                      <div class="form-row">
+                        <input type="text" value="" readonly />
+                        <label>Telephone</label>
+                        <input type="text" value="${homePhone}" readonly />
+                      </div>
+                      <div class="form-row">
+                        <label>Address (Office)</label>
+                        <input type="text" value="${residentialAddress}" readonly />
+                      </div>
+                      <div class="form-row">
+                        <input type="text" value="" readonly />
+                        <label>Telephone</label>
+                        <input type="text" value="${officePhone}" readonly />
+                      </div>
+
+                      <div class="form-row">
+                        <label>Occupation/Line of Business</label>
+                        <input type="text" value="${occupation}" readonly />
+                      </div>
+                      <div class="form-row">
+                        <label
+                          >Who introduced you to Imperial Asset Managers Limited?</label
+                        >
+                        <input type="text" value="${introducedBy}" readonly />
+                      </div>
+                      <div class="form-row">
+                        <label>Profession/Occupation</label>
+                        <input type="text" value="${occupation}" readonly />
+                        <label>Name of Company</label>
+                        <input type="text" value="${companyName}" readonly />
+                      </div>
+                      <div class="form-row">
+                        <label class="lab">Self Employed? </label>
+                        <span>Yes 
+                          <input class="checked" type="checkbox" 
+                            ${
+                              selfEmployed.toLowerCase() === "yes"
+                                ? "checked"
+                                : ""
+                            } readonly />
+                        </span>
+                        <span>No 
+                          <input class="checked" type="checkbox" 
+                            ${
+                              selfEmployed.toLowerCase() === "no"
+                                ? "checked"
+                                : ""
+                            } readonly />
+                        </span>
+
+                        <label>Job Title</label>
+                        <input class="text" value="${jobTitle}" readonly />
+                        <label>Annual Income</label>
+                        <input class="text" value="N ${formatString(
+                          annualIncome
+                        )}" readonly />
+                      </div>
+                      <div class="form-row">
+                        <p>Additional Information</p>
+                        <label>Source of Funds to Operate Account</label>
+                      </div>
+
+                      <div class="form-row">
+                        <label>Amount expected</label>
+                        <input type="text" value="N ${formatString(
+                          expectedAmount
+                        )}" readonly />
+                        <label>Annual Income</label>
+                        <input type="text" value="N ${formatString(
+                          annualIncome
+                        )}" readonly />
+                      </div>
+                      <div class="form-row">
+                        <label>Source Fund</label>
+                        <input type="text" value="${sourceFunds}" readonly />
+                        <label>Other Income</label>
+                        <input type="text" value="${otherIncome}" readonly />
+                      </div>
+
+                      <div class="form-row">
+                        <p>Other Information</p>
+                      </div>
+                      <div class="form-row">
+                        <label>Gender</label>
+                        <input type="text" value="${gender}" readonly />
+                        <label>Religion</label>
+                        <input type="text" value="${religion}" readonly />
+                      </div>
+                      <div class="form-row">
+                        <label>State</label>
+                        <input type="text" value="${state}" readonly />
+                        <label>LGA</label>
+                        <input type="text" value="${lga}" readonly />
+                      </div>
+                      <div class="form-row">
+                        <label>Maiden Name</label>
+                        <input type="text" value="${mothersName}" readonly />
+                        <label>Date of Birth</label>
+                        <input type="text" value="${dob}" readonly />
+                        <label>Land Mark</label>
+                        <input type="text" value="${landmark}" readonly />
+                      </div>
+                    </form>
+                  </div>
+                `;
+                userContainer.insertAdjacentHTML("beforeend", customerData);
+              })
+              .catch((error) => {
+                console.error("Error fetching data:", error);
+              });
+          });
+        </script>
+        <!-- <script>
           document.addEventListener("DOMContentLoaded", () => {
             // Get the customer_number from the query parameter
             const urlParams = new URLSearchParams(window.location.search);
@@ -89,6 +417,7 @@
                 return response.json();
               })
               .then((data) => {
+                console.log(data);
                 // Select the container where the data will be appended
                 const container = document.getElementById("etraderformgrid");
                 let htmlContent = "";
@@ -148,15 +477,28 @@
                 console.error("Error fetching data:", error);
               });
           });
-        </script>
+        </script> -->
 
-        <!-- <div class="termstxt">
-          By opening this account you are hereby agreeing to the terms and condition of the imperial asset managers limited. I/We hereby irrevocable release the company from all liability in the event that any telephone, text messages, e-mail,  facsimile transmission or letter is not received, or is mutilated, altered, illegible or interrupted, duplicated, incomplete, 
- unauthorized, or delayed for any reason.
-        </div> -->
-        <div class="fblk etraderformgrid">
-          <!-- <button>Previous</button> -->
-          <button id="printButton" style="cursor: pointer">Print</button>
+        <div class="fblk etraderformgrid" style="margin-top: 1rem">
+          <button
+            id="printButton"
+            style="
+              cursor: pointer;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              gap: 10px;
+              font-weight: 500;
+              font-size: 16px;
+            "
+          >
+            <img
+              src="./assets/print-solid.svg"
+              alt="print machine"
+              style="width: 20px"
+            />
+            Print
+          </button>
         </div>
       </div>
     </main>
@@ -313,12 +655,44 @@
             <!-- <a href=""><b>Send a Message</b></a> -->
 
             <div class="reach">
-              <span
-                ><img src="./assets/envelope-solid.svg" alt="email address" />
-                <a href="mailto:talk2us@imperialasset.com.ng"
-                  >talk2us@imperialasset.com.ng</a
+              <div>
+                <span
+                  ><img
+                    src="./assets/envelope-solid.svg"
+                    alt="email address"
+                  /><span class="sp">IMP Email</span></span
                 >
-              </span>
+                <span
+                  ><img
+                    style="visibility: hidden"
+                    src="./assets/envelope-solid.svg"
+                    alt="email address"
+                  />
+                  <a class="no-copy" href="mailto:talk2us@imperialasset.com.ng"
+                    >talk2us@imperialasset.com.ng</a
+                  >
+                </span>
+              </div>
+              <div>
+                <span
+                  ><img
+                    src="./assets/envelope-solid.svg"
+                    alt="email address"
+                  /><span class="sp">ICAL Email</span></span
+                >
+                <span
+                  ><img
+                    style="visibility: hidden"
+                    src="./assets/envelope-solid.svg"
+                    alt="email address"
+                  />
+                  <a
+                    class="no-copy"
+                    href="mailto:talk2capitaladvisers@imperialasset.com.ng"
+                    >talk2capitaladvisers@imperial<br />asset.com.ng</a
+                  >
+                </span>
+              </div>
               <span
                 ><img src="./assets/phone-solid.svg" alt="phone" />234-706 043
                 5102
@@ -333,6 +707,12 @@
               >
 
               <style>
+                .no-copy {
+                  user-select: none;
+                  -webkit-user-select: none;
+                  -moz-user-select: none;
+                  -ms-user-select: none;
+                }
                 .reach {
                   display: flex;
                   flex-direction: column;
@@ -345,6 +725,14 @@
                 }
                 .reach img {
                   width: 15px;
+                }
+                .reach .sp {
+                  font-weight: 500;
+                  color: white;
+                }
+                .reach div {
+                  line-height: 20px;
+                  margin-bottom: 10px;
                 }
               </style>
             </div>

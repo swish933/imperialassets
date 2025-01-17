@@ -335,7 +335,7 @@
       <section class="profile-card ainflextwo">
         <div class="profile-details">
           <h2 class="profile-name">Samuel Armon</h2>
-          <h3 class="profile-title">Group Chief Compliance Officer</h3>
+          <h3 class="profile-title">Chief Compliance Officer</h3>
           <p class="profile-description">
             Samuel Armon is the Chief Compliance Officer. Samuel holds an EMBA
             from the Quantic School of Business and Technology Washington, DC. a
@@ -459,12 +459,44 @@
             <!-- <a href=""><b>Send a Message</b></a> -->
 
             <div class="reach">
-              <span
-                ><img src="./assets/envelope-solid.svg" alt="email address" />
-                <a href="mailto:talk2us@imperialasset.com.ng"
-                  >talk2us@imperialasset.com.ng</a
+              <div>
+                <span
+                  ><img
+                    src="./assets/envelope-solid.svg"
+                    alt="email address"
+                  /><span class="sp">IMP Email</span></span
                 >
-              </span>
+                <span
+                  ><img
+                    style="visibility: hidden"
+                    src="./assets/envelope-solid.svg"
+                    alt="email address"
+                  />
+                  <a class="no-copy" href="mailto:talk2us@imperialasset.com.ng"
+                    >talk2us@imperialasset.com.ng</a
+                  >
+                </span>
+              </div>
+              <div>
+                <span
+                  ><img
+                    src="./assets/envelope-solid.svg"
+                    alt="email address"
+                  /><span class="sp">ICAL Email</span></span
+                >
+                <span
+                  ><img
+                    style="visibility: hidden"
+                    src="./assets/envelope-solid.svg"
+                    alt="email address"
+                  />
+                  <a
+                    class="no-copy"
+                    href="mailto:talk2capitaladvisers@imperialasset.com.ng"
+                    >talk2capitaladvisers@imperial<br />asset.com.ng</a
+                  >
+                </span>
+              </div>
               <span
                 ><img src="./assets/phone-solid.svg" alt="phone" />234-706 043
                 5102
@@ -479,6 +511,12 @@
               >
 
               <style>
+                .no-copy {
+                  user-select: none;
+                  -webkit-user-select: none;
+                  -moz-user-select: none;
+                  -ms-user-select: none;
+                }
                 .reach {
                   display: flex;
                   flex-direction: column;
@@ -491,6 +529,14 @@
                 }
                 .reach img {
                   width: 15px;
+                }
+                .reach .sp {
+                  font-weight: 500;
+                  color: white;
+                }
+                .reach div {
+                  line-height: 20px;
+                  margin-bottom: 10px;
                 }
               </style>
             </div>
