@@ -37,24 +37,67 @@
           <a href="#openAccounts" class="register herobtn">Signup</a>
         </div>
       </div>
-      <div style="padding: 2rem 0">
-        <div class="ticker">
-          <div class="ticker-content" id="tickerContent"></div>
+      <div
+        class="ticker-container"
+        style="padding: 2rem 0; width: 95%; max-width: 1250px; margin: auto"
+      >
+        <div style="position: relative">
+          <span class="ticker-title">NASD</span>
+          <div class="ticker" style="height: 20px; padding: 0">
+            <iframe
+              style="overflow: hidden; border: none"
+              src="https://dataex.nasdotcng.com/market_snapshot2/price_ticker"
+              width="100%"
+              height="100%"
+              scrolling="no"
+            >
+              <span
+                style="
+                  display: inline-block;
+                  width: 0px;
+                  overflow: hidden;
+                  line-height: 0;
+                "
+                data-mce-type="bookmark"
+                class="mce_SELRES_start"
+              >
+                &#xFEFF;
+              </span>
+            </iframe>
+          </div>
+        </div>
+        <div style="position: relative">
+          <span class="ticker-title">NGX</span>
+          <div class="ticker">
+            <div class="ticker-content" id="tickerContent"></div>
+          </div>
         </div>
       </div>
     </header>
     <style>
+      .ticker-container {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
       .ticker {
         overflow: hidden;
         white-space: nowrap;
         position: relative;
-        width: 95%;
-        max-width: 1250px;
         padding: 0 10px;
-        margin: 0 auto;
-        border-left: 28px solid #bfa162;
+        border-left: 55px solid #bfa162;
         border-right: 28px solid #bfa162;
         line-height: 18px;
+      }
+
+      .ticker-title {
+        position: absolute;
+        top: 0px;
+        left: 7px;
+        z-index: 1;
+        color: white;
+        font-size: 14px;
+        letter-spacing: 2px;
       }
 
       .ticker-content {
@@ -94,7 +137,7 @@
           const equityData = data[0].product_data;
           equityData.map((data) => {
             const tickerData = `
-                <p>
+                <p style="font-size: 15px">
                     <span 
                         style="color: ${
                           data.Change === 0 || data.Change === null
@@ -103,7 +146,7 @@
                             ? "#cb3532"
                             : "green"
                         }">
-                        ${data.Symbol} ${data.ClosePrice}
+                        ${data.Symbol} ${data.ClosePrice || 0}
                     </span> 
                     <span style='color: grey'> — &nbsp;</span>
                 </p>
