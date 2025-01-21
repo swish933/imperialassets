@@ -136,6 +136,12 @@
             </div>
           </div> -->
         </div>
+        <div id="img-expand">
+          <div class="container">
+            <label id="close-exp">x</label>
+            <img src="./assets/advisory.png" alt="" style="width: 100%" />
+          </div>
+        </div>
         <style>
           .kyc-form {
             max-width: 794px;
@@ -149,6 +155,34 @@
 
           .text {
             width: 154px;
+          }
+
+          #img-expand {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+            z-index: 9999999999999999000;
+          }
+
+          #img-expand .container {
+            max-width: 794px;
+          }
+
+          #close-exp {
+            cursor: pointer;
+            color: white;
+            font-size: 1.5rem;
+            border: 1px solid white;
+            padding: 0 1rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-self: end;
           }
         </style>
 
@@ -491,36 +525,57 @@
                     </div>
                     <div class="form-row img-row">
                       <div class="img-container">
-                        <label>Live Image</label>
-                        <img
-                          src="/${livePhoto}"
-                          alt=""
-                          style="width: 100%; height: 250px"
-                        />
-                      </div>
-
-                      <div class="img-container">
                         <label>Proof of Identity</label>
                         <img
                           src="/${proofIdentity}"
-                          alt=""
+                          alt="proof of identity"
                           style="width: 100%; height: 250px"
+                          class="img-details"
+                        />
+                      </div>
+                      <div class="img-container">
+                        <label>Utility Bill</label>
+                        <img
+                          src="/${utilityBill}"
+                          alt="utility bill"
+                          style="width: 100%; height: 250px"
+                          class="img-details"
                         />
                       </div>
                     </div>
                     <div class="form-row img-row">
                       <div class="img-container">
-                        <label>Utility Bill</label>
+                        <label>Live Image</label>
                         <img
-                          src="/${utilityBill}"
-                          alt=""
-                          style="width: 100%; height: 250px"
+                          src="/${livePhoto}"
+                          alt="live photo"
+                          style="width: 100%; height: 350px"
+                          class="img-details"
                         />
                       </div>
                     </div>
                   </div>
+
                 `;
                 userContainer.insertAdjacentHTML("beforeend", customerData);
+
+                const imgExpand = document.getElementById("img-expand");
+                const imgDetails = document.querySelectorAll(".img-details");
+                document
+                  .getElementById("close-exp")
+                  .addEventListener(
+                    "click",
+                    () => (imgExpand.style.display = "none")
+                  );
+
+                imgDetails.forEach((img) => {
+                  img.addEventListener("click", () => {
+                    imgExpand.style.display = "flex";
+                    imgExpand.querySelector("img").src = img.src;
+                    imgExpand.querySelector("img").alt = img.alt;
+                  });
+                  img.style.cursor = "pointer";
+                });
               })
               .catch((error) => {
                 console.error("Error fetching data:", error);
