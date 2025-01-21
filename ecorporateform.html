@@ -340,6 +340,15 @@
                   readonly
                 />
               </div>
+              <div class="fblk">
+                <label for="bvn">BVN</label>
+                <input
+                  type="text"
+                  id="bvn"
+                  placeholder="bank Verification Number"
+                  required
+                />
+              </div>
             </div>
 
             <script>
@@ -562,6 +571,7 @@
           e.preventDefault();
 
           const formData = {};
+          console.log(formData);
           const inputs = document.querySelectorAll(
             "#multistep-form input, #multistep-form select"
           );
