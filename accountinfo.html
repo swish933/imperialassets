@@ -84,7 +84,58 @@
         <div class="formprogress"></div>
         <br />
 
-        <div id="content"></div>
+        <div id="content">
+          <!-- <div class="kyc-form">
+            <div class="form-row">
+              <label>Email</label>
+              <input type="text" value="${bankName}" readonly />
+              <label>Country</label>
+              <input type="text" value="${accountNumber}" readonly />
+              <label>Marital Status</label>
+              <input
+                type="text"
+                class="text"
+                value="${accountNumber}"
+                readonly
+              />
+            </div>
+            <div class="form-row">
+              <label>ID Type</label>
+              <input type="text" value="${accountName}" readonly />
+              <label>ID Number</label>
+              <input type="text" value="${nationality}" readonly />
+            </div>
+            <div class="form-row img-row">
+              <div class="img-container">
+                <label>Live Image</label>
+                <img
+                  src="./assets/advisory.png"
+                  alt=""
+                  style="width: 100%; height: 250px"
+                />
+              </div>
+
+              <div class="img-container">
+                <label>Proof of Identity</label>
+                <img
+                  src="./assets/advisory.png"
+                  alt=""
+                  style="width: 100%; height: 250px"
+                />
+              </div>
+            </div>
+            <div class="form-row img-row">
+              <div class="img-container">
+                <label>Utility Bill</label>
+                <img
+                  src="./assets/advisory.png"
+                  alt=""
+                  style="width: 100%; height: 250px"
+                />
+              </div>
+            </div>
+          </div> -->
+        </div>
         <style>
           .kyc-form {
             max-width: 794px;
@@ -116,11 +167,20 @@
             }
 
             const formatString = (string) => {
-              const formatedNumber = new Intl.NumberFormat("en-US", {
+              // Remove commas from the string
+              const sanitizedString = string.replace(/,/g, "");
+              const number = parseFloat(sanitizedString);
+
+              if (isNaN(number)) {
+                return "Invalid number";
+              }
+
+              const formattedNumber = new Intl.NumberFormat("en-US", {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
-              }).format(string);
-              return formatedNumber;
+              }).format(number);
+
+              return formattedNumber;
             };
 
             // API endpoint
@@ -181,15 +241,20 @@
                 const userContainer = document.getElementById("content");
                 const styles = `
                 <style>
-                   @media all {
-                  .kyc-form {
-                    max-width: 740px;
-                    margin: 0 auto;
-                    background: #ffffff;
-                    padding: 20px;
-                    border: 1px solid #ccc;
-                    border-radius: 5px;
-                  }
+                  @media all {
+                   #content {
+                      display: flex;
+                      flex-direction: column;
+                      gap: 1rem;
+                    }
+                    .kyc-form {
+                      max-width: 740px;
+                      margin: 0 auto;
+                      background: #ffffff;
+                      padding: 20px;
+                      border: 1px solid #ccc;
+                      border-radius: 5px;
+                    }
 
                     h1 {
                       font-size: 20px;
@@ -197,70 +262,83 @@
                       margin-bottom: 15px;
                     }
 
-                  p {
-                    margin: 15px 0 10px 0;
-                    font-size: 17px;
-                    font-weight: 500;
+                    p {
+                      margin: 15px 0 10px 0;
+                      font-size: 17px;
+                      font-weight: 500;
+                    }
+
+                    form {
+                      font-size: 14px;
+                    }
+
+                    .form-row {
+                      display: flex;
+                      flex-wrap: wrap;
+                      align-items: end;
+                    }
+
+                    label {
+                      /* flex: 1 0 200px; */
+                      font-weight: 500;
+                      color: #414040;
+                      margin-right: 2px;
+                      margin-bottom: 15px;
+                    }
+
+                    .form-row input[type="text"],
+                    input[type="date"],
+                    textarea {
+                      flex: 1 0 140px;
+                      padding: 5px;
+                      margin-right: 10px;
+                      margin-bottom: 15px;
+                      border: 1px solid #3b3b3b;
+                    }
+
+                    .checked {
+                      margin-bottom: 20px;
+                      margin-right: 15px;
+                      transform: scale(1.5);
+                    }
+
+                    .text {
+                      width: 136px;
+                      padding: 5px;
+                      margin-right: 10px;
+                      margin-bottom: 15px;
+                      border: 1px solid #3b3b3b;
+                    }
+
+                    .lab {
+                      margin-right: 10px;
+                    }
+
+                    textarea {
+                      resize: none;
+                      height: 60px;
+                    }
+
+                    input[type="checkbox"] {
+                      margin-left: 5px;
+                    }
+
+                    form p {
+                      flex: 1 0 100%;
+                    }  
+                      
+                  .img-row {
+                    justify-content: space-between;
+                    margin-top: 1rem;
                   }
 
-                  form {
-                    font-size: 14px;
-                  }
-
-                  .form-row {
+                  .img-container {
                     display: flex;
-                    flex-wrap: wrap;
-                    align-items: end;
+                    flex-direction: column;
+                    width: 48.5%;
+                    line-height: 5px;
                   }
-
-                  label {
-                    /* flex: 1 0 200px; */
-                    font-weight: 500;
-                    color: #414040;
-                    margin-right: 2px;
-                    margin-bottom: 15px;
-                  }
-
-                   .form-row input[type="text"],
-                  input[type="date"],
-                  textarea {
-                    flex: 1 0 140px;
-                    padding: 5px;
-                    margin-right: 10px;
-                    margin-bottom: 15px;
-                    border: 1px solid #3b3b3b;
-                  }
-
-                  .checked {
-                    margin-bottom: 20px;
-                    margin-right: 15px;
-                    transform: scale(1.5);
-                  }
-
-                  .text {
-                    width: 136px;
-                    padding: 5px;
-                    margin-right: 10px;
-                    margin-bottom: 15px;
-                    border: 1px solid #3b3b3b;
-                  }
-
-                  .lab {
-                    margin-right: 10px;
-                  }
-
-                  textarea {
-                    resize: none;
-                    height: 60px;
-                  }
-
-                  input[type="checkbox"] {
-                    margin-left: 5px;
-                  }
-
-                  form p {
-                    flex: 1 0 100%;
-                  }  }
+                }
                 </style>
               `;
 
@@ -390,6 +468,56 @@
                         <input type="text" value="${landmark}" readonly />
                       </div>
                     </form>
+                  </div>
+                  <div class="kyc-form">
+                    <div class="form-row">
+                      <label>Email</label>
+                      <input type="text" value="${email}" readonly />
+                      <label>Country</label>
+                      <input type="text" value="${country}" readonly />
+                      <label>Marital Status</label>
+                      <input
+                        type="text"
+                        class="text"
+                        value="${maritalStatus}"
+                        readonly
+                      />
+                    </div>
+                    <div class="form-row">
+                      <label>ID Type</label>
+                      <input type="text" value="${idType}" readonly />
+                      <label>ID Number</label>
+                      <input type="text" value="${idNumber}" readonly />
+                    </div>
+                    <div class="form-row img-row">
+                      <div class="img-container">
+                        <label>Live Image</label>
+                        <img
+                          src="/${livePhoto}"
+                          alt=""
+                          style="width: 100%; height: 250px"
+                        />
+                      </div>
+
+                      <div class="img-container">
+                        <label>Proof of Identity</label>
+                        <img
+                          src="/${proofIdentity}"
+                          alt=""
+                          style="width: 100%; height: 250px"
+                        />
+                      </div>
+                    </div>
+                    <div class="form-row img-row">
+                      <div class="img-container">
+                        <label>Utility Bill</label>
+                        <img
+                          src="/${utilityBill}"
+                          alt=""
+                          style="width: 100%; height: 250px"
+                        />
+                      </div>
+                    </div>
                   </div>
                 `;
                 userContainer.insertAdjacentHTML("beforeend", customerData);
@@ -582,7 +710,12 @@
             <a href="research.html">Research and Insights</a>
             <a href="">Blog</a>
             <a href="policy.html">Policies</a>
-            <a href="">Terms & Conditions</a>
+            <a
+              href="RISK-DISCLOSURE-STATEMENT.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Risk Disclosure Statement</a
+            >
           </div>
         </div>
 
@@ -668,9 +801,7 @@
                     src="./assets/envelope-solid.svg"
                     alt="email address"
                   />
-                  <a class="no-copy" href="mailto:talk2us@imperialasset.com.ng"
-                    >talk2us@imperialasset.com.ng</a
-                  >
+                  <a class="no-copy" href="#">talk2us@imperialasset.com.ng</a>
                 </span>
               </div>
               <div>
@@ -686,9 +817,7 @@
                     src="./assets/envelope-solid.svg"
                     alt="email address"
                   />
-                  <a
-                    class="no-copy"
-                    href="mailto:talk2capitaladvisers@imperialasset.com.ng"
+                  <a class="no-copy" href="#"
                     >talk2capitaladvisers@imperial<br />asset.com.ng</a
                   >
                 </span>

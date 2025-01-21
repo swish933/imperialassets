@@ -50,7 +50,7 @@
           <a href="careers.html">Careers</a>
           <a href="e-trader.html">E-Trader</a>
           <a href="login.html" class="login">Login</a>
-          <a href="etraderform.html" class="register">Signup</a>
+          <a href="#openAccounts" id="signup-link" class="register">Signup</a>
         </div>
       </div>
     </header>
@@ -60,6 +60,78 @@
         links.classList.toggle("active");
       }
     </script>
+    <div
+      id="openAccounts"
+      style="
+        position: fixed;
+        background: rgb(0, 0, 0, 0.3);
+        top: 0;
+        height: 100%;
+        z-index: 99999;
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      "
+    >
+      <div class="git" style="position: relative">
+        <span
+          id="closeModal"
+          style="
+            font-size: 1rem;
+            border: 1px solid rgb(51, 50, 50);
+            padding: 0 10px;
+            position: absolute;
+            right: 0.5rem;
+            top: 5px;
+            cursor: pointer;
+          "
+          >x</span
+        >
+        <div class="faqtitle">Open an account with us</div>
+        <div class="faqsubtitle">
+          Imperial-trader, you can trade your securities online, in real time
+          with as little as a minimum account opening balance of N5,000 only
+          from wherever you are. We provide a comprehensive range of services to
+          meet and execute on your investment requirements
+        </div>
+
+        <div class="btns">
+          <button id="individual-account-btn">
+            Open an Individual Account
+          </button>
+          <button id="corporate-account-btn">Open a Corporate Account</button>
+
+          <script>
+            const signupLink = document.getElementById("signup-link");
+            const openAccounts = document.getElementById("openAccounts");
+            const closeModal = document.getElementById("closeModal");
+
+            signupLink.addEventListener("click", (e) => {
+              e.preventDefault();
+              openAccounts.style.display = "flex";
+            });
+            closeModal.addEventListener("click", () => {
+              openAccounts.style.display = "none";
+            });
+
+            const individualAccountBtn = document.getElementById(
+              "individual-account-btn"
+            );
+            const corporateAccountBtn = document.getElementById(
+              "corporate-account-btn"
+            );
+
+            individualAccountBtn.addEventListener("click", () => {
+              window.location.href = "etraderform.html";
+            });
+            corporateAccountBtn.addEventListener("click", () => {
+              window.location.href = "ecorporateform.html";
+            });
+          </script>
+        </div>
+      </div>
+    </div>
     <div class="ovl"></div>
     <main>
       <!-- <div class="containers etarderform">
@@ -941,7 +1013,12 @@
             <a href="research.html">Research and Insights</a>
             <a href="">Blog</a>
             <a href="policy.html">Policies</a>
-            <a href="">Terms & Conditions</a>
+            <a
+              href="RISK-DISCLOSURE-STATEMENT.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Risk Disclosure Statement</a
+            >
           </div>
         </div>
 
@@ -1027,9 +1104,7 @@
                     src="./assets/envelope-solid.svg"
                     alt="email address"
                   />
-                  <a class="no-copy" href="mailto:talk2us@imperialasset.com.ng"
-                    >talk2us@imperialasset.com.ng</a
-                  >
+                  <a class="no-copy" href="#">talk2us@imperialasset.com.ng</a>
                 </span>
               </div>
               <div>
@@ -1045,9 +1120,7 @@
                     src="./assets/envelope-solid.svg"
                     alt="email address"
                   />
-                  <a
-                    class="no-copy"
-                    href="mailto:talk2capitaladvisers@imperialasset.com.ng"
+                  <a class="no-copy" href="#"
                     >talk2capitaladvisers@imperial<br />asset.com.ng</a
                   >
                 </span>

@@ -34,7 +34,7 @@
           <a href="careers.html">Careers</a>
           <a href="e-trader.html">E-Trader</a>
           <a href="login.html" class="login">Login</a>
-          <a href="etraderform.html" class="register">Signup</a>
+          <a href="#openAccounts" id="signup-link" class="register">Signup</a>
         </div>
       </div>
     </header>
@@ -44,6 +44,78 @@
         links.classList.toggle("active");
       }
     </script>
+    <div
+      id="openAccounts"
+      style="
+        position: fixed;
+        background: rgb(0, 0, 0, 0.3);
+        top: 0;
+        height: 100%;
+        z-index: 99999;
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      "
+    >
+      <div class="git" style="position: relative">
+        <span
+          id="closeModal"
+          style="
+            font-size: 1rem;
+            border: 1px solid rgb(51, 50, 50);
+            padding: 0 10px;
+            position: absolute;
+            right: 0.5rem;
+            top: 5px;
+            cursor: pointer;
+          "
+          >x</span
+        >
+        <div class="faqtitle">Open an account with us</div>
+        <div class="faqsubtitle">
+          Imperial-trader, you can trade your securities online, in real time
+          with as little as a minimum account opening balance of N5,000 only
+          from wherever you are. We provide a comprehensive range of services to
+          meet and execute on your investment requirements
+        </div>
+
+        <div class="btns">
+          <button id="individual-account-btn">
+            Open an Individual Account
+          </button>
+          <button id="corporate-account-btn">Open a Corporate Account</button>
+
+          <script>
+            const signupLink = document.getElementById("signup-link");
+            const openAccounts = document.getElementById("openAccounts");
+            const closeModal = document.getElementById("closeModal");
+
+            signupLink.addEventListener("click", (e) => {
+              e.preventDefault();
+              openAccounts.style.display = "flex";
+            });
+            closeModal.addEventListener("click", () => {
+              openAccounts.style.display = "none";
+            });
+
+            const individualAccountBtn = document.getElementById(
+              "individual-account-btn"
+            );
+            const corporateAccountBtn = document.getElementById(
+              "corporate-account-btn"
+            );
+
+            individualAccountBtn.addEventListener("click", () => {
+              window.location.href = "etraderform.html";
+            });
+            corporateAccountBtn.addEventListener("click", () => {
+              window.location.href = "ecorporateform.html";
+            });
+          </script>
+        </div>
+      </div>
+    </div>
     <div class="ovl"></div>
     <main class="white">
       <div class="hero research financial_journey">
@@ -56,6 +128,75 @@
           </div>
 
           <div class="herobtn" id="open-popup-btn">Request for Service</div>
+        </div>
+      </div>
+
+      <div
+        id="open-service"
+        style="
+          position: fixed;
+          background: rgb(0, 0, 0, 0.3);
+          top: 0;
+          height: 100%;
+          width: 100%;
+          z-index: 99999;
+          display: none;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        "
+      >
+        <div class="git" style="position: relative; width: 100%">
+          <span
+            id="close-modal"
+            style="
+              font-size: 1rem;
+              border: 1px solid rgb(51, 50, 50);
+              padding: 0 10px;
+              position: absolute;
+              right: 0.5rem;
+              top: 5px;
+              cursor: pointer;
+            "
+            >x</span
+          >
+          <div class="faqtitle">Request for Service</div>
+          <div class="faqsubtitle" style="width: 794px; margin: auto">
+            From in-depth equity and fixed-income reports to macroeconomic
+            analyses and enterprise risk research, we equip you with the
+            knowledge needed to optimize your investment portfolio.
+          </div>
+
+          <div class="btns">
+            <button id="imp-service-btn">Request IMP Services</button>
+            <button id="iaml-service-btn">Request IAML Services</button>
+
+            <script>
+              const requestServiceBtn =
+                document.getElementById("open-popup-btn");
+              const openService = document.getElementById("open-service");
+              const closeServiceModal = document.getElementById("close-modal");
+
+              requestServiceBtn.addEventListener("click", (e) => {
+                e.preventDefault();
+                openService.style.display = "flex";
+              });
+              closeServiceModal.addEventListener("click", () => {
+                openService.style.display = "none";
+              });
+
+              const impServiceBtn = document.getElementById("imp-service-btn");
+              const iamlServiceBtn =
+                document.getElementById("iaml-service-btn");
+
+              impServiceBtn.addEventListener("click", () => {
+                window.location.href = "iamlrequestservice.html";
+              });
+              iamlServiceBtn.addEventListener("click", () => {
+                window.location.href = "icalrequestservice.html";
+              });
+            </script>
+          </div>
         </div>
       </div>
 
@@ -300,7 +441,12 @@
             <a href="research.html">Research and Insights</a>
             <a href="">Blog</a>
             <a href="policy.html">Policies</a>
-            <a href="">Terms & Conditions</a>
+            <a
+              href="RISK-DISCLOSURE-STATEMENT.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Risk Disclosure Statement</a
+            >
           </div>
         </div>
 
@@ -386,9 +532,7 @@
                     src="./assets/envelope-solid.svg"
                     alt="email address"
                   />
-                  <a class="no-copy" href="mailto:talk2us@imperialasset.com.ng"
-                    >talk2us@imperialasset.com.ng</a
-                  >
+                  <a class="no-copy" href="#">talk2us@imperialasset.com.ng</a>
                 </span>
               </div>
               <div>
@@ -404,9 +548,7 @@
                     src="./assets/envelope-solid.svg"
                     alt="email address"
                   />
-                  <a
-                    class="no-copy"
-                    href="mailto:talk2capitaladvisers@imperialasset.com.ng"
+                  <a class="no-copy" href="#"
                     >talk2capitaladvisers@imperial<br />asset.com.ng</a
                   >
                 </span>
