@@ -377,6 +377,37 @@
                     width: 48.5%;
                     line-height: 5px;
                   }
+
+                  .hr-ct{
+                    margin-top: 4rem;
+                  }
+
+                  .hr-ct,
+                  .hr {
+                    display: flex;
+                    align-items: last baseline;
+                    width: 100%;
+                    gap: 10px;
+                  }
+
+                  .hr {
+                    width: 56%;
+                  }
+
+                  .hr:last-child {
+                    width: 44%;
+                  }
+
+                  .hr p {
+                    width: 60%;
+                    font-size: 0.8rem;
+                    padding: 0;
+                    margin: 0;
+                  }
+
+                  .hr hr {
+                    width: 40%;
+                  }
                 }
                 </style>
               `;
@@ -566,8 +597,56 @@
                         />
                       </div>
                     </div>
+                    <div class="form-row">
+                      <div class="hr-ct">
+                        <div class="hr">
+                          <p> Relationship Manager not below
+                              the level of Investment Officer
+                          </p>
+                          <hr/>
+                        </div>
+                        <div class="hr">
+                          <p> Chief Compliance Officer</p>
+                          <hr/>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-
+                  <div class="kyc-form">
+                    <img
+                      src="./assets/form1.jpg"
+                      style="width: 100%; height: 100%"
+                      alt="form1"
+                    />
+                  </div>
+                  <div class="kyc-form">
+                    <img
+                      src="./assets/form2.jpg"
+                      style="width: 100%; height: 100%"
+                      alt="form2"
+                    />
+                  </div>
+                  <div class="kyc-form">
+                    <img
+                      src="./assets/form3.jpg"
+                      style="width: 100%; height: 100%"
+                      alt="form3"
+                    />
+                  </div>
+                  <div class="kyc-form">
+                    <img
+                      src="./assets/form4.jpg"
+                      style="width: 100%; height: 100%"
+                      alt="form4"
+                    />
+                  </div>
+                  <div class="kyc-form">
+                    <img
+                      src="./assets/form5.jpg"
+                      style="width: 100%; height: 100%"
+                      alt="form5"
+                    />
+                  </div>
                 `;
                 userContainer.insertAdjacentHTML("beforeend", customerData);
 
