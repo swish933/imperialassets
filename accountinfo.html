@@ -67,25 +67,59 @@
         <br />
         <br />
         <h1></h1>
-        <p>
-          <a
-            href="admindashboard.html"
-            style="
-              font-size: 2rem;
-              display: flex;
-              gap: 4px;
-              align-items: center;
-              color: #303030;
-            "
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          "
+        >
+          <p>
+            <a
+              href="admindashboard.html"
+              style="
+                font-size: 2rem;
+                display: flex;
+                gap: 4px;
+                align-items: center;
+                color: #303030;
+              "
+            >
+              &larr; <span style="font-size: 1.2rem">Back</span></a
+            >
+          </p>
+          <div
+            class="fblk etraderformgrid"
+            style="margin-top: 1rem; width: auto"
           >
-            &larr; <span style="font-size: 1.2rem">Back</span></a
-          >
-        </p>
+            <button
+              id="printButton"
+              class="print-button"
+              style="
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+                font-weight: 500;
+                font-size: 16px;
+              "
+            >
+              <img
+                src="./assets/print-solid.svg"
+                alt="print machine"
+                style="width: 20px"
+              />
+              Print
+            </button>
+          </div>
+        </div>
         <div class="formprogress"></div>
         <br />
 
         <div id="content">
-          <!-- <div class="kyc-form">
+          <!-- 
+          <div class="kyc-form">
             <div class="form-row">
               <label>Email</label>
               <input type="text" value="${bankName}" readonly />
@@ -99,42 +133,8 @@
                 readonly
               />
             </div>
-            <div class="form-row">
-              <label>ID Type</label>
-              <input type="text" value="${accountName}" readonly />
-              <label>ID Number</label>
-              <input type="text" value="${nationality}" readonly />
-            </div>
-            <div class="form-row img-row">
-              <div class="img-container">
-                <label>Live Image</label>
-                <img
-                  src="./assets/advisory.png"
-                  alt=""
-                  style="width: 100%; height: 250px"
-                />
-              </div>
-
-              <div class="img-container">
-                <label>Proof of Identity</label>
-                <img
-                  src="./assets/advisory.png"
-                  alt=""
-                  style="width: 100%; height: 250px"
-                />
-              </div>
-            </div>
-            <div class="form-row img-row">
-              <div class="img-container">
-                <label>Utility Bill</label>
-                <img
-                  src="./assets/advisory.png"
-                  alt=""
-                  style="width: 100%; height: 250px"
-                />
-              </div>
-            </div>
-          </div> -->
+          </div> 
+          -->
         </div>
         <div id="img-expand">
           <div class="container">
@@ -146,6 +146,7 @@
             />
           </div>
         </div>
+
         <style>
           .kyc-form {
             max-width: 794px;
@@ -379,7 +380,7 @@
                   }
 
                   .hr-ct{
-                    margin-top: 4rem;
+                    margin-top: 3rem;
                   }
 
                   .hr-ct,
@@ -407,6 +408,25 @@
 
                   .hr hr {
                     width: 40%;
+                  }
+
+                  .form-r p,
+                  .form-r label,
+                  p,
+                  label {
+                    font-weight: normal;
+                    font-size: 0.73rem;
+                    color: #302f2f;
+                  }
+
+                  .form-r p{
+                  margin: 7px auto;
+                  padding: 0}
+
+                  .form-r input {
+                    padding: 0 5px;
+                    height: 22px;
+                    margin-bottom: 0;
                   }
                 }
                 </style>
@@ -612,6 +632,127 @@
                       </div>
                     </div>
                   </div>
+                  <div class="kyc-form" style="padding: 0px 20px">
+                    <p style="font-size: 1.5rem">Indemnity</p>
+                    <p style="margin: 0">Whereas:</p>
+                    <div class="form-row form-r">
+                      <label for="name">I/We</label>
+                      <input id="name" type="text" readonly />
+                      <label for="company">of</label>
+                      <input id="company" type="text" readonly />
+                    </div>
+                    <div class="form-row form-r"">
+                      <p style="margin: 0; padding: 0">
+                        operate and continue to operate stockbroking account(s) with
+                        <strong>Imperial Asset Managers Limited</strong> of
+                      </p>
+                    </div>
+                    <div class="form-row form-r" style=" line-height: 0px; margin: 7px 0">
+                      <p style="margin: 0; padding: 0;">
+                        <input type="text" readonly style="width: 50%" />
+                        (The Company) as the beneficial owner of the investments hereby
+                        warehoused in the above-designated Stockbroking House hereby
+                        declare as follows:
+                      </p>
+                    </div>
+
+                    <div class="form-row form-r"">
+                      <p>
+                        I am fully aware that Buy and/or Sell Mandate for the trade of
+                        shares/stocks/bonds through our CENTRAL SECURITIES CLEARING SYSTEM
+                        PLC (CSCS) Account domiciled with the company shall be by Buy
+                        and/or Sell Mandate Form executed in accordance with the existing
+                        mandate.
+                      </p>
+                      <p>
+                        I/We hereby acknowledge that the use of facsimile (fax),
+                        telephone, text messages (SMS), e-mail, letters (on letterhead),
+                        or other unsecured means of communication to convey instructions
+                        for the trade of Shares/Stocks/Bonds or any other such
+                        instructions not backed by a duly executed Buy and/or Sell Mandate
+                        Form that will lead to the sale or purchase as the case may be of
+                        Shares/Stocks/Bonds on my account is associated with additional
+                        risks and fraud exposure.
+                      </p>
+                      <p>
+                        And whereas, I/We had issued in the past and still intend to
+                        further issue Buy/Sell Mandates in the aforementioned forms
+                        otherwise than by a formal Buy/Sell Mandate. <br/><br/>
+                        The company has requested and I have agreed to provide the Indemnity
+                         under the condition herein contained:
+                      </p>
+
+                      <p>
+                        <span>NOW THEREFORE:</span>
+                        I/We instruct that the company should accept and execute
+                        instructions and/or give effect to requests to buy or sell stocks
+                        on my behalf, any other instruction relating to my account on any
+                        of the services usually rendered by the company to her customers,
+                        where such instructions and/or requests are given by any of the
+                        aforementioned means.
+                      </p>
+                      <p>
+                        IN CONSIDERATION of the company agreeing to accept and act upon
+                        any such instructions, communications, and documents by facsimile
+                        (fax), telephone, e-mail, letters issued by me for the trade of
+                        shares/stocks/bonds and unaccompanied by a duly executed Buy
+                        and/or Sell Mandate Form, I/We hereby irrevocably undertake to
+                        indemnify the company and hold it harmless from and against all
+                        costs (including without limitation to legal fees and expenses,
+                        claims, losses, liabilities, damages and proceedings) whatsoever
+                        that the company may suffer or incur or that may arise as a result
+                        of the company accepting or acting upon such instructions,
+                        communication or documents.
+                      </p>
+                      <p>
+                        I/We hereby irrevocable release the company from all liability in
+                        the event that any telephone, text messages, e-mail, facsimile
+                        transmission or letter is not received, or is mutilated, altered,
+                        illegible or interrupted, duplicated, incomplete, unauthorized, or
+                        delayed for any reason.
+                      </p>
+                      <p>
+                        The company shall have absolute discretion, for any reason
+                        whatsoever to act or not to act upon documentation received by
+                        facsimile, e-mail or letters or instructions received by telephone
+                        unaccompanied by my executed Buy and/or Sell Mandate Form and/or
+                        request verification of documents and instructions received by
+                        such means.
+                      </p>
+                      <p>
+                        Furthermore, I/We do hereby undertake that I/We will at all times
+                        sufficiently indemnify you and keep you indemnified against all
+                        liabilities and against all actions suits, proceedings, claims,
+                        demand, cost and expenses whatever which may be taken or made
+                        against you or incurred or become payable by you by reason of your
+                        reliance on the information provided in this account opening
+                        package and signature sample therein.
+                      </p>
+                    </div>
+
+                    <div class="" style="white-space: nowrap">
+                      <label style="white-space: nowrap">Dated this</label>
+                      <input type="text" value="" readonly />
+                      <label style="white-space: nowrap">day of</label>
+                      <input type="text" value="" readonly />
+                      <label style="white-space: nowrap">20</label>
+                      <input type="text" value="" readonly />
+                    </div>
+
+                    <div class="form-row form-r"" style="margin: 1rem 0 0 0">
+                      <label style="white-space: nowrap"
+                        >Signed, Sealed and Delivered by the within named</label
+                      >
+                      <input type="text" value="" readonly />
+                    </div>
+                    <p style="margin:0">In the presence of</p>
+                    <div class="form-row form-r"">
+                      <label>Name</label>
+                      <input type="text" value="" readonly />
+                      <label>Signature</label>
+                      <input type="text" value="" readonly />
+                    </div>
+                  </div>
                   <div class="kyc-form">
                     <img
                       src="./assets/form1.jpg"
@@ -647,6 +788,7 @@
                       alt="form5"
                     />
                   </div>
+                  
                 `;
                 userContainer.insertAdjacentHTML("beforeend", customerData);
 
@@ -756,6 +898,7 @@
         <div class="fblk etraderformgrid" style="margin-top: 1rem">
           <button
             id="printButton"
+            class="print-button"
             style="
               cursor: pointer;
               display: flex;
@@ -777,18 +920,21 @@
       </div>
     </main>
     <script>
-      document.getElementById("printButton").onclick = () => {
-        const printContents = document.getElementById("content").innerHTML;
-        const originalContents = document.body.innerHTML;
+      document.querySelectorAll(".print-button").forEach(
+        (btn) =>
+          (btn.onclick = () => {
+            const printContents = document.getElementById("content").innerHTML;
+            const originalContents = document.body.innerHTML;
 
-        document.body.innerHTML = printContents;
+            document.body.innerHTML = printContents;
 
-        window.print();
+            window.print();
 
-        document.body.innerHTML = originalContents;
+            document.body.innerHTML = originalContents;
 
-        location.reload();
-      };
+            location.reload();
+          })
+      );
     </script>
 
     <script>
