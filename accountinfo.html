@@ -222,64 +222,87 @@
               return formattedNumber;
             };
 
-            // API endpoint
-            const apiEndpoint = `https://marketreports.vercel.app/submissions/${customerNumber}/`;
+            const PAYSTACK_SECRET_KEY =
+              "sk_test_9b7782e2e31d0c2156deed534c8a1e7a72a5c1ef";
+            let bankList = [];
+            const fetchBankList = async function () {
+              try {
+                const response = await fetch("https://api.paystack.co/bank", {
+                  method: "GET",
+                  headers: {
+                    Authorization: `Bearer ${PAYSTACK_SECRET_KEY}`,
+                    "Content-Type": "application/json",
+                  },
+                });
+                const { data } = await response.json();
+                if (!data) throw new Error("No data returned from API");
+                bankList = data;
+              } catch (error) {
+                console.error("Error fetching bank list:", error);
+              }
+            };
 
-            // Fetch user data from the API
-            fetch(apiEndpoint)
-              .then((response) => {
-                if (!response.ok) {
-                  throw new Error(`Failed to fetch data: ${response.status}`);
-                }
-                return response.json();
-              })
-              .then((data) => {
-                console.log(data);
-                const user = data.data;
-                const {
-                  "account-name": accountName,
-                  "account-number": accountNumber,
-                  "annual-income": annualIncome,
-                  "bank-name": bankName,
-                  bvn,
-                  "company-name": companyName,
-                  country,
-                  dob,
-                  email,
-                  "expected-amount": expectedAmount,
-                  "first-name": firstName,
-                  gender,
-                  "home-address": homeAddress,
-                  "home-phone": homePhone,
-                  "id-number": idNumber,
-                  "id-type": idType,
-                  "introduced-by": introducedBy,
-                  "job-title": jobTitle,
-                  landmark,
-                  "last-name": lastName,
-                  lga,
-                  "live-photo-url": livePhoto,
-                  "marital-status": maritalStatus,
-                  "middle-name": middleName,
-                  "mothers-name": mothersName,
-                  nationality,
-                  occupation,
-                  "office-address": officeAddress,
-                  "office-phone": officePhone,
-                  "other-income": otherIncome,
-                  phone,
-                  "proof-identity-url": proofIdentity,
-                  religion,
-                  "residential-address": residentialAddress,
-                  "self-employed": selfEmployed,
-                  "source-funds": sourceFunds,
-                  state,
-                  title,
-                  "utility-bill-url": utilityBill,
-                } = user;
+            const initializeForm = async () => {
+              await fetchBankList();
 
-                const userContainer = document.getElementById("content");
-                const styles = `
+              // API endpoint
+              const apiEndpoint = `https://marketreports.vercel.app/submissions/${customerNumber}/`;
+
+              // Fetch user data from the API
+              fetch(apiEndpoint)
+                .then((response) => {
+                  if (!response.ok) {
+                    throw new Error(`Failed to fetch data: ${response.status}`);
+                  }
+                  return response.json();
+                })
+                .then((data) => {
+                  console.log(data);
+                  const user = data.data;
+                  const {
+                    "account-name": accountName,
+                    "account-number": accountNumber,
+                    "annual-income": annualIncome,
+                    "bank-name": bankName,
+                    bvn,
+                    "company-name": companyName,
+                    country,
+                    dob,
+                    email,
+                    "expected-amount": expectedAmount,
+                    "first-name": firstName,
+                    gender,
+                    "home-address": homeAddress,
+                    "home-phone": homePhone,
+                    "id-number": idNumber,
+                    "id-type": idType,
+                    "introduced-by": introducedBy,
+                    "job-title": jobTitle,
+                    landmark,
+                    "last-name": lastName,
+                    lga,
+                    "live-photo-url": livePhoto,
+                    "marital-status": maritalStatus,
+                    "middle-name": middleName,
+                    "mothers-name": mothersName,
+                    nationality,
+                    occupation,
+                    "office-address": officeAddress,
+                    "office-phone": officePhone,
+                    "other-income": otherIncome,
+                    phone,
+                    "proof-identity-url": proofIdentity,
+                    religion,
+                    "residential-address": residentialAddress,
+                    "self-employed": selfEmployed,
+                    "source-funds": sourceFunds,
+                    state,
+                    title,
+                    "utility-bill-url": utilityBill,
+                  } = user;
+
+                  const userContainer = document.getElementById("content");
+                  const styles = `
                 <style>
                   @media all {
                    #content {
@@ -365,8 +388,8 @@
 
                     form p {
                       flex: 1 0 100%;
-                    }  
-                      
+                    }
+
                   .img-row {
                     justify-content: space-between;
                     margin-top: 1rem;
@@ -377,6 +400,10 @@
                     flex-direction: column;
                     width: 48.5%;
                     line-height: 5px;
+                  }
+
+                  .img-container img{
+                    border: 1px solid #3b3b3b;
                   }
 
                   .hr-ct{
@@ -428,11 +455,21 @@
                     height: 22px;
                     margin-bottom: 0;
                   }
+
+                  @media (min-width: 768px) {
+                    .white{
+                      white-space: nowrap;
+                    }
+
+                    .line{
+                     line-height: 0px;
+                    }
+                  }
                 }
                 </style>
               `;
 
-                const customerData = `
+                  const customerData = `
                  ${styles}
                   <div class="kyc-form">
                     <h1>KYC Customer Profile</h1>
@@ -443,7 +480,10 @@
                           data.submitted_at
                         )}" readonly />
                         <label>Bank</label>
-                        <input type="text" value="${bankName}" readonly />
+                        <input type="text" value="${
+                          bankList.find((bank) => bank.code === bankName)
+                            ?.name || ""
+                        }" readonly />
                         <label>A/C No</label>
                         <input type="text" value="${accountNumber}" readonly />
                         <label>Name</label>
@@ -488,16 +528,16 @@
                       </div>
                       <div class="form-row">
                         <label class="lab">Self Employed? </label>
-                        <span>Yes 
-                          <input class="checked" type="checkbox" 
+                        <span>Yes
+                          <input class="checked" type="checkbox"
                             ${
                               selfEmployed.toLowerCase() === "yes"
                                 ? "checked"
                                 : ""
                             } readonly />
                         </span>
-                        <span>No 
-                          <input class="checked" type="checkbox" 
+                        <span>No
+                          <input class="checked" type="checkbox"
                             ${
                               selfEmployed.toLowerCase() === "no"
                                 ? "checked"
@@ -548,7 +588,7 @@
                         <input type="text" value="${country}" readonly />
                         <label>Email</label>
                         <input type="text" value="${email}" readonly />
-                        
+
                       </div>
                       <div class="form-row">
                         <label>Maiden Name</label>
@@ -632,7 +672,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="kyc-form" style="padding: 0px 20px">
+                  <div class="kyc-form" style="padding: 0px 20px;">
                     <p style="font-size: 1.5rem">Indemnity</p>
                     <p style="margin: 0">Whereas:</p>
                     <div class="form-row form-r">
@@ -647,7 +687,7 @@
                         <strong>Imperial Asset Managers Limited</strong> of
                       </p>
                     </div>
-                    <div class="form-row form-r" style=" line-height: 0px; margin: 7px 0">
+                    <div class="form-row form-r line" style="margin: 7px 0">
                       <p style="margin: 0; padding: 0;">
                         <input type="text" readonly style="width: 50%" />
                         (The Company) as the beneficial owner of the investments hereby
@@ -730,7 +770,7 @@
                       </p>
                     </div>
 
-                    <div class="" style="white-space: nowrap">
+                    <div class="white" style="">
                       <label style="white-space: nowrap">Dated this</label>
                       <input type="text" value="" readonly />
                       <label style="white-space: nowrap">day of</label>
@@ -788,31 +828,33 @@
                       alt="form5"
                     />
                   </div>
-                  
+
                 `;
-                userContainer.insertAdjacentHTML("beforeend", customerData);
+                  userContainer.insertAdjacentHTML("beforeend", customerData);
 
-                const imgExpand = document.getElementById("img-expand");
-                const imgDetails = document.querySelectorAll(".img-details");
-                document
-                  .getElementById("close-exp")
-                  .addEventListener(
-                    "click",
-                    () => (imgExpand.style.display = "none")
-                  );
+                  const imgExpand = document.getElementById("img-expand");
+                  const imgDetails = document.querySelectorAll(".img-details");
+                  document
+                    .getElementById("close-exp")
+                    .addEventListener(
+                      "click",
+                      () => (imgExpand.style.display = "none")
+                    );
 
-                imgDetails.forEach((img) => {
-                  img.addEventListener("click", () => {
-                    imgExpand.style.display = "flex";
-                    imgExpand.querySelector("img").src = img.src;
-                    imgExpand.querySelector("img").alt = img.alt;
+                  imgDetails.forEach((img) => {
+                    img.addEventListener("click", () => {
+                      imgExpand.style.display = "flex";
+                      imgExpand.querySelector("img").src = img.src;
+                      imgExpand.querySelector("img").alt = img.alt;
+                    });
+                    img.style.cursor = "pointer";
                   });
-                  img.style.cursor = "pointer";
+                })
+                .catch((error) => {
+                  console.error("Error fetching data:", error);
                 });
-              })
-              .catch((error) => {
-                console.error("Error fetching data:", error);
-              });
+            };
+            initializeForm();
           });
         </script>
         <!-- <script>
