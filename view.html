@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document Viewer</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background: #f5f5f5;
+      }
+
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        color: #333;
+        margin-bottom: 20px;
+      }
+
+      .document-viewer {
+        width: 100%;
+        margin-bottom: 20px;
+      }
+
+      .download-btn {
+        padding: 10px 20px;
+        background: #c1a261;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        margin-right: 10px;
+      }
+
+      .loading,
+      .error-message {
+        padding: 40px;
+        text-align: center;
+        color: #666;
+      }
+
+      .error-message {
+        color: #e74c3c;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1 id="viewTitle">Document Viewer</h1>
+      <div id="documentViewer" class="document-viewer">
+        <div class="loading">Loading document, please wait...</div>
+      </div>
+      <div id="documentActions">
+        <a id="downloadLink" href="#" class="download-btn" style="display: none"
+          >Download Document</a
+        >
+      </div>
+      <div id="errorMessage" class="error-message" style="display: none"></div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const docId = urlParams.get("id");
+        const viewTitle = document.getElementById("viewTitle");
+        const documentViewer = document.getElementById("documentViewer");
+        const downloadLink = document.getElementById("downloadLink");
+        const errorMessage = document.getElementById("errorMessage");
+
+        if (!docId) {
+          showError("No document ID specified in the URL");
+          return;
+        }
+
+        fetchDocument(docId);
+
+        function fetchDocument(docId) {
+          fetch(`get_document.php?id=${docId}`)
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error("Network response was not ok");
+              }
+              return response.json();
+            })
+            .then((document) => {
+              displayDocument(document);
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+              showError(
+                "Failed to load document. Please check the URL or try again later."
+              );
+            });
+        }
+
+        function displayDocument(document) {
+          viewTitle.textContent = document.title;
+          const fileUrl = document.fileUrl;
+          const fileExt = fileUrl.split(".").pop().toLowerCase();
+
+          let viewerContent = "";
+          if (["jpg", "jpeg", "png", "gif"].includes(fileExt)) {
+            viewerContent = `<img src="${fileUrl}" style="max-width:100%; max-height:100%; object-fit: contain;">`;
+            downloadLink.style.display = "inline-block";
+          } else if (fileExt === "pdf") {
+            viewerContent = `<embed src="${fileUrl}" type="application/pdf" width="100%" height="100%" style="height:100vh">`;
+            downloadLink.style.display = "none";
+          } else {
+            viewerContent = `
+                        <div style="padding:20px; text-align:center;">
+                            <p>Preview not available for this file type.</p>
+                            <p>Please download the file to view it.</p>
+                        </div>
+                    `;
+          }
+
+          documentViewer.innerHTML = viewerContent;
+          downloadLink.href = fileUrl;
+          downloadLink.download = document.title || "document";
+          //downloadLink.style.display = "inline-block";
+        }
+
+        function showError(message) {
+          documentViewer.style.display = "none";
+          errorMessage.textContent = message;
+          errorMessage.style.display = "block";
+        }
+      });
+    </script>
+  </body>
+</html>

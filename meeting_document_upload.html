@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document Management System - Admin</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 20px;
+        color: #333;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        background: #f9f9f9;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        text-align: center;
+        color: #2c3e50;
+      }
+
+      .upload-section {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+      }
+
+      .document-list {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+      }
+
+      input,
+      button {
+        padding: 10px;
+        margin: 10px 0;
+      }
+
+      button {
+        background: #c1a261;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background: #daaa42;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      th,
+      td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+
+      .link-box {
+        display: flex;
+      }
+
+      .link-input {
+        flex-grow: 1;
+        margin-right: 10px;
+      }
+
+      .copy-btn {
+        background: #303030;
+      }
+
+      .copy-btn:hover {
+        background: #000;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      .form-group {
+        margin-bottom: 15px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      /* Drag and Drop Styles */
+      .drop-area {
+        border: 2px dashed #c1a261;
+        border-radius: 8px;
+        padding: 25px;
+        text-align: center;
+        margin: 15px 0;
+        background-color: #f8f9fa;
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+
+      .drop-area.highlight {
+        background-color: #e3f2fd;
+        border-color: #2196f3;
+      }
+
+      .drop-area p {
+        margin: 0;
+        color: #666;
+      }
+
+      .file-info {
+        margin-top: 10px;
+        font-size: 14px;
+        color: #666;
+      }
+
+      .file-name {
+        font-weight: bold;
+        color: #333;
+      }
+
+      .progress-bar {
+        height: 10px;
+        background: #eee;
+        border-radius: 5px;
+        margin: 10px 0;
+        overflow: hidden;
+      }
+
+      .progress-bar-fill {
+        height: 100%;
+        background: #c1a261;
+        width: 0%;
+        transition: width 0.3s ease;
+      }
+
+      .upload-status {
+        margin-top: 10px;
+        font-size: 14px;
+        color: #666;
+      }
+
+      .upload-error {
+        color: #e74c3c;
+      }
+
+      .upload-success {
+        color: #27ae60;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Document Management</h1>
+
+      <div class="upload-section">
+        <h2>Upload New Document</h2>
+        <form id="uploadForm">
+          <div class="form-group">
+            <label for="documentTitle">Document Title:</label>
+            <input type="text" id="documentTitle" required />
+          </div>
+
+          <!-- Drag and Drop Area -->
+          <div class="form-group">
+            <label>Select File:</label>
+            <div id="dropArea" class="drop-area">
+              <p>Drag & drop files here<br />or<br />click to select files</p>
+              <input
+                type="file"
+                id="documentFile"
+                name="user-file"
+                class="hidden"
+                required
+              />
+              <div id="fileInfo" class="file-info hidden">
+                Selected file: <span id="fileName" class="file-name"></span>
+              </div>
+            </div>
+            <div id="uploadProgress" class="progress-bar hidden">
+              <div id="progressBarFill" class="progress-bar-fill"></div>
+            </div>
+            <div id="uploadStatus" class="upload-status hidden"></div>
+          </div>
+
+          <button type="submit">Upload Document</button>
+        </form>
+      </div>
+
+      <div class="document-list">
+        <h2>Your Documents</h2>
+        <table id="documentsTable">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Uploaded Date</th>
+              <th>Sharing Link</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="documentsList">
+            <!-- Documents will be listed here -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <script>
+      // Document storage (in a real app, documents metadata would be in a database)
+      let documents = JSON.parse(localStorage.getItem("documents")) || [];
+
+      // DOM Elements
+      const uploadForm = document.getElementById("uploadForm");
+      const documentsList = document.getElementById("documentsList");
+      const dropArea = document.getElementById("dropArea");
+      const fileInput = document.getElementById("documentFile");
+      const fileInfo = document.getElementById("fileInfo");
+      const fileName = document.getElementById("fileName");
+      const uploadProgress = document.getElementById("uploadProgress");
+      const progressBarFill = document.getElementById("progressBarFill");
+      const uploadStatus = document.getElementById("uploadStatus");
+
+      // Initialize
+      renderDocumentsList();
+
+      // Handle file upload
+      uploadForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const title = document.getElementById("documentTitle").value;
+        const file = fileInput.files[0];
+
+        if (!title) {
+          alert("Please enter a document title");
+          return;
+        }
+
+        if (!file) {
+          alert("Please select a file to upload");
+          return;
+        }
+
+        uploadFile(title, file);
+      });
+
+      // Function to handle file upload to PHP backend
+      function uploadFile(title, file) {
+        // Show progress bar
+        uploadProgress.classList.remove("hidden");
+        uploadStatus.classList.remove("hidden");
+        uploadStatus.textContent = "Uploading...";
+        uploadStatus.className = "upload-status";
+
+        const formData = new FormData();
+        formData.append("user-file", file);
+        formData.append("title", title); // Make sure to include the title
+
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "upload.php", true);
+
+        // Track upload progress
+        xhr.upload.onprogress = function (e) {
+          if (e.lengthComputable) {
+            const percentComplete = (e.loaded / e.total) * 100;
+            progressBarFill.style.width = percentComplete + "%";
+          }
+        };
+
+        xhr.onload = function () {
+          if (xhr.status === 200) {
+            try {
+              const response = JSON.parse(xhr.responseText);
+
+              if (response.success) {
+                // Only use the document ID returned from the server
+                const newDoc = {
+                  id: response.docId, // Use the ID from the server instead of generating one
+                  title: title,
+                  uploadDate: new Date().toLocaleDateString(),
+                  fileUrl: response.fileUrl,
+                  fileType: file.type,
+                };
+
+                documents.push(newDoc);
+                localStorage.setItem("documents", JSON.stringify(documents));
+
+                // Update UI
+                uploadStatus.textContent = "Upload successful!";
+                uploadStatus.className = "upload-status upload-success";
+
+                // Reset form
+                document.getElementById("documentTitle").value = "";
+                fileInput.value = "";
+                fileInfo.classList.add("hidden");
+
+                // Refresh document list
+                renderDocumentsList();
+
+                // Hide progress after 2 seconds
+                setTimeout(() => {
+                  uploadProgress.classList.add("hidden");
+                  uploadStatus.classList.add("hidden");
+                  progressBarFill.style.width = "0%";
+                }, 2000);
+              } else {
+                // Handle error
+                uploadStatus.textContent = `Error: ${response.error}`;
+                uploadStatus.className = "upload-status upload-error";
+              }
+            } catch (e) {
+              console.error("Error parsing server response:", e);
+              uploadStatus.textContent = "Error: Invalid server response";
+              uploadStatus.className = "upload-status upload-error";
+            }
+          } else {
+            uploadStatus.textContent = `Error: Server returned status ${xhr.status}`;
+            uploadStatus.className = "upload-status upload-error";
+          }
+        };
+
+        xhr.onerror = function () {
+          uploadStatus.textContent = "Error: Network error occurred";
+          uploadStatus.className = "upload-status upload-error";
+        };
+
+        xhr.send(formData);
+      }
+
+      // Render documents list
+      function renderDocumentsList() {
+        documentsList.innerHTML = "";
+
+        if (documents.length === 0) {
+          documentsList.innerHTML =
+            '<tr><td colspan="4" style="text-align: center;">No documents uploaded yet</td></tr>';
+          return;
+        }
+
+        documents.forEach((doc) => {
+          const sharingLink = `view.html?id=${doc.id}`;
+
+          const row = document.createElement("tr");
+          row.innerHTML = `
+                    <td>${doc.title}</td>
+                    <td>${doc.uploadDate}</td>
+                    <td>
+                        <div class="link-box">
+                            <input type="text" class="link-input" value="${window.location.origin}/${sharingLink}" readonly>
+                            <button class="copy-btn" onclick="copyLink('${window.location.origin}/${sharingLink}')">Copy</button>
+                        </div>
+                    </td>
+                    <td>
+                        <button onclick="window.open('${sharingLink}', '_blank')">View</button>
+                        <button onclick="deleteDocument('${doc.id}')">Delete</button>
+                    </td>
+                `;
+
+          documentsList.appendChild(row);
+        });
+      }
+
+      // Copy link to clipboard
+      window.copyLink = function (link) {
+        navigator.clipboard
+          .writeText(link)
+          .then(() => {
+            alert("Link copied to clipboard!");
+          })
+          .catch((err) => {
+            console.error("Failed to copy link: ", err);
+          });
+      };
+
+      // Delete document
+      window.deleteDocument = function (docId) {
+        if (confirm("Are you sure you want to delete this document?")) {
+          // Find the document to get its file path
+          const documentToDelete = documents.find((doc) => doc.id === docId);
+
+          if (documentToDelete) {
+            // First delete from server (both file and metadata)
+            deleteDocumentOnServer(docId, documentToDelete.fileUrl)
+              .then(() => {
+                // Then remove from local storage
+                documents = documents.filter((doc) => doc.id !== docId);
+                localStorage.setItem("documents", JSON.stringify(documents));
+                renderDocumentsList();
+              })
+              .catch((error) => {
+                console.error("Delete failed:", error);
+                alert("Failed to delete document. Please try again.");
+              });
+          }
+        }
+      };
+
+      // Function to handle server-side deletion
+      function deleteDocumentOnServer(docId, fileUrl) {
+        return new Promise((resolve, reject) => {
+          const xhr = new XMLHttpRequest();
+          xhr.open("POST", "delete_document.php", true);
+          xhr.setRequestHeader(
+            "Content-Type",
+            "application/x-www-form-urlencoded"
+          );
+
+          xhr.onload = function () {
+            if (xhr.status === 200) {
+              try {
+                const response = JSON.parse(xhr.responseText);
+                if (response.success) {
+                  resolve();
+                } else {
+                  reject(response.error || "Unknown error");
+                }
+              } catch (e) {
+                reject("Invalid server response");
+              }
+            } else {
+              reject(`Server returned status ${xhr.status}`);
+            }
+          };
+
+          xhr.onerror = function () {
+            reject("Network error occurred");
+          };
+
+          xhr.send(
+            `id=${encodeURIComponent(docId)}&fileUrl=${encodeURIComponent(
+              fileUrl
+            )}`
+          );
+        });
+      }
+
+      // Drag and Drop functionality
+      dropArea.addEventListener("click", () => {
+        fileInput.click();
+      });
+
+      fileInput.addEventListener("change", () => {
+        if (fileInput.files.length > 0) {
+          fileInfo.classList.remove("hidden");
+          fileName.textContent = fileInput.files[0].name;
+        } else {
+          fileInfo.classList.add("hidden");
+        }
+      });
+
+      // Handle drag events
+      ["dragenter", "dragover", "dragleave", "drop"].forEach((eventName) => {
+        dropArea.addEventListener(eventName, preventDefaults, false);
+      });
+
+      function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+
+      // Highlight drop area when dragging files over it
+      ["dragenter", "dragover"].forEach((eventName) => {
+        dropArea.addEventListener(eventName, highlight, false);
+      });
+
+      ["dragleave", "drop"].forEach((eventName) => {
+        dropArea.addEventListener(eventName, unhighlight, false);
+      });
+
+      function highlight() {
+        dropArea.classList.add("highlight");
+      }
+
+      function unhighlight() {
+        dropArea.classList.remove("highlight");
+      }
+
+      // Handle dropped files
+      dropArea.addEventListener("drop", handleDrop, false);
+
+      function handleDrop(e) {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+
+        if (files.length > 0) {
+          fileInput.files = files;
+          fileInfo.classList.remove("hidden");
+          fileName.textContent = files[0].name;
+        }
+      }
+    </script>
+  </body>
+</html>
