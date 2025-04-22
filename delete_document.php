@@ -1,48 +1,63 @@
 <?php
 header('Content-Type: application/json');
 
-$documentsFile = 'documents.json';
-
-// Get input data
-$docId = $_POST['id'] ?? null;
-$fileUrl = $_POST['fileUrl'] ?? null;
-
-if (!$docId || !$fileUrl) {
-    echo json_encode(['success' => false, 'error' => 'Missing parameters']);
+// Check if required parameters are provided
+if (!isset($_POST['id']) || !isset($_POST['fileUrl'])) {
+    http_response_code(400);
+    echo json_encode(['success' => false, 'error' => 'Document ID and file URL are required']);
     exit;
 }
 
-// Load existing documents
+$docId = $_POST['id'];
+$fileUrl = $_POST['fileUrl'];
+$documentsFile = 'documents.json';
+
+// Check if documents file exists
 if (!file_exists($documentsFile)) {
+    http_response_code(404);
     echo json_encode(['success' => false, 'error' => 'Documents file not found']);
     exit;
 }
 
+// Load documents from file
 $documents = json_decode(file_get_contents($documentsFile), true);
 if (json_last_error() !== JSON_ERROR_NONE) {
-    echo json_encode(['success' => false, 'error' => 'Error reading documents']);
+    http_response_code(500);
+    echo json_encode(['success' => false, 'error' => 'Error reading documents data']);
     exit;
 }
 
-// Find and remove the document
-$newDocuments = array_filter($documents, function($doc) use ($docId) {
-    return $doc['id'] !== $docId;
-});
-
-// Try to delete the physical file
-$fileDeleted = true;
-if (file_exists($fileUrl)) {
-    $fileDeleted = unlink($fileUrl);
+// Find document index
+$documentIndex = -1;
+foreach ($documents as $index => $doc) {
+    if ($doc['id'] === $docId) {
+        $documentIndex = $index;
+        break;
+    }
 }
 
-// Save the updated documents list
-if (file_put_contents($documentsFile, json_encode(array_values($newDocuments))) === false) {
-    echo json_encode(['success' => false, 'error' => 'Could not save documents']);
+// If document not found
+if ($documentIndex === -1) {
+    http_response_code(404);
+    echo json_encode(['success' => false, 'error' => 'Document not found']);
     exit;
 }
 
-echo json_encode([
-    'success' => true,
-    'fileDeleted' => $fileDeleted
-]);
+// Delete the physical file
+if (file_exists($fileUrl) && is_file($fileUrl)) {
+    unlink($fileUrl);
+}
+
+// Remove document from array
+array_splice($documents, $documentIndex, 1);
+
+// Save updated documents to file
+if (file_put_contents($documentsFile, json_encode($documents, JSON_PRETTY_PRINT))) {
+    echo json_encode(['success' => true]);
+} else {
+    http_response_code(500);
+    echo json_encode(['success' => false, 'error' => 'Failed to update documents data']);
+}
 ?>
+
+

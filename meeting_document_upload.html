@@ -176,7 +176,6 @@
             <input type="text" id="documentTitle" required />
           </div>
 
-          <!-- Drag and Drop Area -->
           <div class="form-group">
             <label>Select File:</label>
             <div id="dropArea" class="drop-area">
@@ -208,21 +207,21 @@
           <thead>
             <tr>
               <th>Title</th>
-              <th>Uploaded Date</th>
+              <th>Date Uploaded</th>
               <th>Sharing Link</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody id="documentsList">
-            <!-- Documents will be listed here -->
+            <!-- Documents will be populated here -->
           </tbody>
         </table>
       </div>
     </div>
 
     <script>
-      // Document storage (in a real app, documents metadata would be in a database)
-      let documents = JSON.parse(localStorage.getItem("documents")) || [];
+      // Document storage (now retrieved from server)
+      let documents = [];
 
       // DOM Elements
       const uploadForm = document.getElementById("uploadForm");
@@ -235,8 +234,28 @@
       const progressBarFill = document.getElementById("progressBarFill");
       const uploadStatus = document.getElementById("uploadStatus");
 
-      // Initialize
-      renderDocumentsList();
+      // Initialize - Fetch documents from JSON file
+      fetchDocuments();
+
+      // Function to fetch documents from documents.json
+      function fetchDocuments() {
+        fetch("get_documents.php")
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+            return response.json();
+          })
+          .then((data) => {
+            documents = data;
+            renderDocumentsList();
+          })
+          .catch((error) => {
+            console.error("Error fetching documents:", error);
+            documentsList.innerHTML =
+              '<tr><td colspan="4" style="text-align: center;">Error loading documents</td></tr>';
+          });
+      }
 
       // Handle file upload
       uploadForm.addEventListener("submit", (e) => {
@@ -268,7 +287,7 @@
 
         const formData = new FormData();
         formData.append("user-file", file);
-        formData.append("title", title); // Make sure to include the title
+        formData.append("title", title);
 
         const xhr = new XMLHttpRequest();
         xhr.open("POST", "upload.php", true);
@@ -287,18 +306,6 @@
               const response = JSON.parse(xhr.responseText);
 
               if (response.success) {
-                // Only use the document ID returned from the server
-                const newDoc = {
-                  id: response.docId, // Use the ID from the server instead of generating one
-                  title: title,
-                  uploadDate: new Date().toLocaleDateString(),
-                  fileUrl: response.fileUrl,
-                  fileType: file.type,
-                };
-
-                documents.push(newDoc);
-                localStorage.setItem("documents", JSON.stringify(documents));
-
                 // Update UI
                 uploadStatus.textContent = "Upload successful!";
                 uploadStatus.className = "upload-status upload-success";
@@ -309,7 +316,7 @@
                 fileInfo.classList.add("hidden");
 
                 // Refresh document list
-                renderDocumentsList();
+                fetchDocuments(); // Fetch updated documents list
 
                 // Hide progress after 2 seconds
                 setTimeout(() => {
@@ -364,7 +371,7 @@
                             <button class="copy-btn" onclick="copyLink('${window.location.origin}/${sharingLink}')">Copy</button>
                         </div>
                     </td>
-                    <td>
+                    <td style="display: flex; gap: 5px; align-items: center;">
                         <button onclick="window.open('${sharingLink}', '_blank')">View</button>
                         <button onclick="deleteDocument('${doc.id}')">Delete</button>
                     </td>
@@ -393,13 +400,11 @@
           const documentToDelete = documents.find((doc) => doc.id === docId);
 
           if (documentToDelete) {
-            // First delete from server (both file and metadata)
+            // Delete from server (both file and metadata)
             deleteDocumentOnServer(docId, documentToDelete.fileUrl)
               .then(() => {
-                // Then remove from local storage
-                documents = documents.filter((doc) => doc.id !== docId);
-                localStorage.setItem("documents", JSON.stringify(documents));
-                renderDocumentsList();
+                // Refresh documents list after successful deletion
+                fetchDocuments();
               })
               .catch((error) => {
                 console.error("Delete failed:", error);
