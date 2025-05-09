@@ -23,7 +23,7 @@
 					<div class="close-bt" onclick="closePopup()">x</div>
 				</div>
 				<div class="myform">
-					<div class="formtitle">Creat an Account</div>
+					<div class="formtitle">Create an Account</div>
 					<input type="text" placeholder="First Name" />
 					<input type="email" placeholder="Email" />
 					<input type="text" placeholder="Phone Number" />
@@ -60,6 +60,7 @@
 				links.classList.toggle("active");
 			}
 		</script>
+		<script src="./fetch.js"></script>
 		<div
 			id="openAccounts"
 			style="
@@ -842,7 +843,8 @@
 									}
 								})
 								.catch((error) => {
-									alert("An error occurred: ", error);
+									console.log(error);
+									alert("An error occurred: ");
 								});
 						}
 					</script>
@@ -875,6 +877,210 @@
 			</style>
 
 			<script>
+				const keycloakUrl = "https://sentry.issl.ng/auth";
+				const realm = "Neos";
+				const clientID = "candourcrestapp";
+				const clientSecret = "f41ebbea-3719-4091-be8c-6929ffa529d8";
+				const grantType = "password";
+				const username = "candourcrest";
+				const password = "ccapp";
+
+				console.log({
+					keycloakUrl,
+					realm,
+					clientID,
+					clientSecret,
+					grantType,
+					username,
+					password,
+				});
+
+				function setCookie(cname, cvalue, seconds) {
+					const d = new Date();
+					d.setTime(d.getTime() + seconds * 1000);
+					let expires = "expires=" + d.toUTCString();
+					document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+				}
+
+				function getCookie(cname) {
+					let name = cname + "=";
+					let decodedCookie = decodeURIComponent(document.cookie);
+					let ca = decodedCookie.split(";");
+					for (let i = 0; i < ca.length; i++) {
+						let c = ca[i];
+						while (c.charAt(0) == " ") {
+							c = c.substring(1);
+						}
+						if (c.indexOf(name) == 0) {
+							return c.substring(name.length, c.length);
+						}
+					}
+					return "";
+				}
+
+				// function checkCookie() {
+				// 	let username = getCookie("username");
+				// 	if (username != "") {
+				// 		alert("Welcome again " + username);
+				// 	} else {
+				// 		username = prompt("Please enter your name:", "");
+				// 		if (username != "" && username != null) {
+				// 			setCookie("username", username, 365);
+				// 		}
+				// 	}
+				// }
+
+				// Fetch Access Token
+				async function fetchAccessToken() {
+					try {
+						const urlencoded = new URLSearchParams({
+							client_id: clientID,
+							client_secret: clientSecret,
+							grant_type: grantType,
+							username: username,
+							password: password,
+						});
+
+						const response = await fetch(
+							`${keycloakUrl}/realms/${realm}/protocol/openid-connect/token`,
+							{
+								method: "POST",
+								headers: {
+									"Content-Type": "application/x-www-form-urlencoded",
+								},
+
+								body: urlencoded.toString(),
+							}
+						);
+
+						if (!response.ok) {
+							const errorData = await response.json();
+							console.error("Error fetching access token:", errorData);
+							throw new Error("Failed to fetch access token");
+						}
+
+						const data = await response.json();
+
+						// Store the access_token and refresh_token in cookies
+						setCookie("access_token", data.access_token, 120);
+						setCookie("refresh_token", data.refresh_token, 180);
+
+						console.log("Access token successfully fetched:", data);
+						return data;
+					} catch (error) {
+						console.error("Error fetching access token:", error);
+						throw error;
+					}
+				}
+
+				// Refresh Access Token
+				async function getNewAccessToken() {
+					try {
+						// const cookieStore = cookies();
+						const storedRefreshToken = getCookie("refresh_token");
+
+						if (!storedRefreshToken) {
+							throw new Error("No refresh token found in cookies");
+						}
+
+						const urlencoded = new URLSearchParams({
+							client_id: clientID,
+							client_secret: clientSecret,
+							grant_type: "refresh_token",
+							refresh_token: storedRefreshToken,
+						});
+
+						const response = await fetch(
+							`${keycloakUrl}/realms/${realm}/protocol/openid-connect/token`,
+							{
+								method: "POST",
+								headers: {
+									"Content-Type": "application/x-www-form-urlencoded",
+								},
+								body: urlencoded.toString(),
+							}
+						);
+
+						if (!response.ok) {
+							const errorData = await response.json();
+							console.error("Error refreshing token:", errorData);
+							throw new Error("Failed to refresh token");
+						}
+
+						const data = await response.json();
+
+						// Update the cookies with new tokens
+
+						setCookie("access_token", data.access_token, 120);
+						setCookie("refresh_token", data.refresh_token, 180);
+						// cookieStore.set("access_Token", data.access_token, {
+						// 	httpOnly: true,
+						// 	maxAge: 20 * 60,
+						// 	sameSite: "Strict",
+						// });
+
+						// cookieStore.set("refresh_Token", data.refresh_token, {
+						// 	httpOnly: true,
+						// 	maxAge: 30 * 60,
+						// 	sameSite: "Strict",
+						// });
+
+						return data.access_token;
+					} catch (error) {
+						console.error("Error refreshing access token:", error);
+						throw error;
+					}
+				}
+
+				// Fetch with Interceptor
+				async function fetchWithInterceptor(url, options = {}) {
+					try {
+						let token = getCookie("access_token");
+						const refreshToken = cookieStore.get("refresh_token");
+
+						// If Access Token is Missing or Expired
+						if (!token && refreshToken) {
+							token = await getNewAccessToken();
+						}
+
+						const headers = {
+							Authorization: `Bearer ${token}`,
+							"Content-Type": "application/json",
+							...options.headers,
+						};
+
+						const response = await fetch(url, {
+							...options,
+							headers,
+						});
+
+						// Handle Unauthorized Error (401)
+						if (response.status === 401 && refreshToken) {
+							const newToken = await getNewAccessToken();
+
+							setCookie("access_token", newToken, 120);
+
+							// cookieStore.set("access_token", newToken, {
+							// 	httpOnly: true,
+							// 	maxAge: 20 * 60,
+							// 	sameSite: "Strict",
+							// });
+
+							// Retry the request with the new token
+							headers.Authorization = `Bearer ${newToken}`;
+							return fetch(url, {
+								...options,
+								headers,
+							});
+						}
+
+						return response;
+					} catch (error) {
+						console.error("Error in fetchWithInterceptor:", error);
+						throw error;
+					}
+				}
+
 				let currentStep = 1;
 				const totalSteps = 6;
 				const steps = document.querySelectorAll(".step");
@@ -925,6 +1131,7 @@
 					}
 				}
 
+				// Submission of form data
 				document.getElementById("multistep-form").onsubmit = async function (
 					e
 				) {
@@ -964,30 +1171,84 @@
 						formData[input.id] = input.value;
 					});
 
-					// Send data to PHP endpoint
-					try {
-						console.table(formData);
-						// const response = await fetch(
-						// 	"https://marketreports.vercel.app/api/form-submission/",
-						// 	{
-						// 		method: "POST",
-						// 		headers: {
-						// 			"Content-Type": "application/json",
-						// 		},
-						// 		body: JSON.stringify(formData),
-						// 	}
-						// );
+					// Prepare data for ISSL API (modify structure if needed)
+					const isslData = {
+						customerType: "I",
+						customerCategory: "I",
+						bankAccountName: formData["account-name"],
+						bankAccountNo: formData["account-number"],
+						grossAnnualIncome: formData["annual-income"],
+						bankName: formData["bank-name"],
+						bvn: formData["bvn"],
+						employerName: formData["company-name"],
+						country: formData["country"],
+						dob: formData["dob"],
+						email: formData["email"],
+						marketShare: formData["expected-amount"],
+						firstName: formData["first-name"],
+						gender: formData["gender"],
+						address: formData["home-address"],
+						phoneRef: formData["home-phone"],
+						nin: formData["id-number"],
+						id: formData["id-type"],
+						altRelationshipMan: formData["introduced-by"],
+						profession: formData["job-title"],
+						nearestBusStop: formData["landmark"],
+						lastName: formData["last-name"],
+						lgaOfResidence: formData["lga"],
+						url: formData["live-photo-url"],
+						kycdocs: [
+							{
+								documentType: "passport",
+								image: formData["proof-identity-url"],
+							},
+							{
+								documentType: "utility",
+								image: formData["utility-bill-url"],
+							},
+						],
+						maritalStatus: formData["marital-status"],
+						otherName: formData["middle-name"],
+						mothersMaidenName: formData["mothers-name"],
+						nationality: formData["nationality"],
+						natureofEmployment: formData["occupation"],
+						employerAddress: formData["office-address"],
+						officePhoneNo: formData["office-phone"],
+						notes: formData["other-income"],
+						religion: formData["religion"],
+						address2: formData["residential-address"],
+						employmentStatus: formData["self-employed"],
+						occupationDesc: formData["source-funds"],
+						state: formData["state"],
+						title: formData["title"],
+					};
 
-						// const result = await response.json();
-						// if (result.status === "success") {
-						// 	alert("Form submitted successfully!");
-						// 	window.location.href = "/";
-						// } else {
-						// 	alert("Error: " + result.message);
-						// }
+					console.table(isslData);
+					const access_token = await fetchAccessToken();
+					console.log(access_token);
+
+					// Send data to ISSL API
+					try {
+						const response = await fetchWithInterceptor(
+							"http://api.issl.ng:7777/onboarding-api/1.0/newcustomer2/1/${data.firstName}/${data.lastName}",
+							{
+								method: "POST",
+								headers: {
+									"Content-Type": "application/json",
+									access_token,
+								},
+								body: JSON.stringify(formData),
+							}
+						);
+						const result = await response.json();
+						if (res.status === 200) {
+							console.log(result);
+							return result;
+						} else {
+							console.log("didn't upload successfully");
+						}
 					} catch (error) {
-						console.error("Error submitting form:", error);
-						alert("An error occurred while submitting the form.");
+						console.log("Error: " + error.message);
 					}
 				};
 
@@ -1081,7 +1342,7 @@
             const storedAccessToken = localStorage.getItem("access_token");
             const response = await fetch(
               // `http://api.issl.ng:7777/onboarding-api/1.0/newcustomer2/1/${data.firstName}/${data.lastName}`,
-              `https://api.issl.ng/onboarding-api/1.0/newcustomer2/1/${data.firstName}/${data.lastName}`,
+              `https://api.issl.ng/onboarding-api/1.0/newcustomer2/1/${data.first-Name}/${data.lastName}`,
               {
                 method: "POST",
                 headers: {
@@ -1187,7 +1448,7 @@
                 image: formData["proof-identity-url"],
               },
               {
-                documentType: "utiliy",
+                documentType: "utility",
                 image: formData["utility-bill-url"],
               },
             ],

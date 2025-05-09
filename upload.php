@@ -3,7 +3,7 @@ header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 
 // Document upload directory
-$uploadDir = 'uploads/';
+$uploadDir = '/uploads';
 if (!file_exists($uploadDir)) {
     mkdir($uploadDir, 0755, true);
 }
@@ -29,11 +29,11 @@ if (!isset($_FILES['user-file']) || $_FILES['user-file']['error'] !== UPLOAD_ERR
 }
 
 // Check if title was provided
-if (!isset($_POST['title']) || empty($_POST['title'])) {
-    http_response_code(400);
-    echo json_encode(['success' => false, 'error' => 'Document title is required']);
-    exit;
-}
+// if (!isset($_POST['title']) || empty($_POST['title'])) {
+//     http_response_code(400);
+//     echo json_encode(['success' => false, 'error' => 'Document title is required']);
+//     exit;
+// }
 
 $title = $_POST['title'];
 $file = $_FILES['user-file'];
@@ -64,7 +64,10 @@ $newDocument = [
     'uploadDate' => date('Y-m-d H:i:s'),
     'fileUrl' => $destination,
     'fileType' => $fileType
+    
 ];
+
+// echo($newDocument);
 
 // Add to documents array
 $documents[] = $newDocument;
@@ -82,6 +85,7 @@ if (file_put_contents($documentsFile, json_encode($documents, JSON_PRETTY_PRINT)
     
     // Clean up the uploaded file if metadata couldn't be saved
     if (file_exists($destination)) {
+        // echo "destination: $destination";
         unlink($destination);
     }
 }
