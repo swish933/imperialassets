@@ -23,6 +23,12 @@
 				border-radius: 5px;
 				object-fit: cover;
 			}
+
+			.loadingBtn {
+				background-color: #cdc9c0;
+				pointer-events: none;
+				cursor: not-allowed;
+			}
 		</style>
 
 		<style>
@@ -312,7 +318,7 @@
 								/>
 							</div>
 							<div class="fblk">
-								<label for="lga">LGA of Residence *</label>
+								<label for="lga">LGA of Origin *</label>
 								<input type="text" id="lga" placeholder="Select LGA" required />
 							</div>
 							<div class="fblk">
@@ -354,6 +360,23 @@
 						<h3>Step 2: Address Information</h3>
 						<div class="etraderformgrid">
 							<div class="fblk">
+								<label for="home-address">Home Address</label>
+								<input
+									type="text"
+									id="home-address"
+									placeholder="Home Address"
+									required
+								/>
+							</div>
+							<div class="fblk">
+								<label for="home-phone">Home Telephone</label>
+								<input
+									type="text"
+									id="home-phone"
+									placeholder="Home Telephone"
+								/>
+							</div>
+							<div class="fblk">
 								<label for="office-address">Office Address</label>
 								<input
 									type="text"
@@ -371,20 +394,12 @@
 								/>
 							</div>
 							<div class="fblk">
-								<label for="home-address">Home Address</label>
+								<label for="office-email">Office Email</label>
 								<input
-									type="text"
-									id="home-address"
-									placeholder="Home Address"
+									type="email"
+									id="office-email"
+									placeholder="example@gmail.com"
 									required
-								/>
-							</div>
-							<div class="fblk">
-								<label for="home-phone">Home Telephone</label>
-								<input
-									type="text"
-									id="home-phone"
-									placeholder="Home Telephone"
 								/>
 							</div>
 						</div>
@@ -422,6 +437,12 @@
 								/>
 							</div>
 							<div class="fblk">
+								<label for="employment-start-date"
+									>Employment Start Date
+								</label>
+								<input type="date" id="employment-start-date" required />
+							</div>
+							<div class="fblk">
 								<label for="self-employed">Are you Self Employed?</label>
 								<select id="self-employed">
 									<option value="">Select</option>
@@ -447,7 +468,7 @@
 						</div>
 					</div>
 
-					<!-- Step 4: Additional Information -->
+					<!-- Step 4: Banking Information -->
 					<div class="step step-4 hidden">
 						<h3>Step 4: Banking Information</h3>
 						<div class="etraderformgrid">
@@ -494,6 +515,7 @@
 						</div>
 					</div>
 
+					<!-- Step 5: Additional Info -->
 					<div class="step step-5 hidden">
 						<h3>Step 4: Additional Information</h3>
 						<div class="etraderformgrid">
@@ -540,85 +562,143 @@
 							<button type="button" onclick="prevStep(5)" class="whitebtn">
 								Previous
 							</button>
-							<button type="button" onclick="nextStep(5)">Submit</button>
+							<button type="button" onclick="nextStep(5)">Next</button>
 						</div>
 					</div>
 
 					<div class="step step-6 hidden">
-						<h3>Step 5: Upload Documents</h3>
+						<h3>Step 5: Next Of Kin Information</h3>
 						<br />
 						<div class="etraderformgrid">
-							<!-- Live Photo -->
 							<div class="fblk">
-								<label for="live-photo">Upload Recent Photo</label>
+								<label for="nok-first-name">NOK First Name *</label>
 								<input
-									type="file"
-									id="live-photo"
-									accept="image/*"
-									capture="user"
-									onchange="handleFileUpload('live-photo', 'live-photo-preview', 'live-photo-url')"
-								/>
-								<img
-									id="live-photo-preview"
-									class="preview-img hidden"
-									alt="Live Photo Preview"
-								/>
-								<input
-									type="hidden"
-									id="live-photo-url"
-									name="live-photo-url"
+									type="text"
+									id="nok-first-name"
+									placeholder="Enter Next Of Kin First Name"
+									required
 								/>
 							</div>
-
-							<!-- Utility Bill -->
 							<div class="fblk">
-								<label for="utility-bill">Upload Utility Bill</label>
+								<label for="nok-last-name">NOK Last Name *</label>
+								<input
+									type="text"
+									id="nok-last-name"
+									placeholder="Enter Next Of Kin Last Name"
+									required
+								/>
+							</div>
+							<div class="fblk">
+								<label for="nok-email">NOK Email Address *</label>
+								<input
+									type="text"
+									id="nok-email"
+									placeholder="Enter Next Of Kin Email"
+									required
+								/>
+							</div>
+							<div class="fblk">
+								<label for="nok-phone">NOK Phone Number *</label>
+								<input
+									type="text"
+									id="nok-phone"
+									placeholder="Enter Next Of Kin Phone Number"
+									required
+								/>
+							</div>
+							<div class="fblk">
+								<label for="nok-address">NOK Address *</label>
+								<input
+									type="text"
+									id="nok-address"
+									placeholder="Enter Next Of Kin Address"
+									required
+								/>
+							</div>
+							<div class="fblk">
+								<label for="nok-relationship">NOK Relationship *</label>
+								<input
+									type="text"
+									id="nok-relationship"
+									placeholder="Enter Next Of Kin Relationship"
+									required
+								/>
+							</div>
+						</div>
+						<div class="fblk btnk etraderformgrid">
+							<button type="button" onclick="prevStep(6)" class="whitebtn">
+								Previous
+							</button>
+							<button type="button" onclick="nextStep(6)">Next</button>
+						</div>
+					</div>
+
+					<!-- Step 7: Docs Upload -->
+					<div class="step step-7 hidden">
+						<h3>Step 6: Upload Documents</h3>
+						<br />
+						<div class="etraderformgrid">
+							<!-- Utility -->
+							<div class="fblk">
+								<label for="utility">Upload Utility Bill</label>
 								<input
 									type="file"
-									id="utility-bill"
+									id="utility"
 									accept="image/*,application/pdf"
-									onchange="handleFileUpload('utility-bill', 'utility-bill-preview', 'utility-bill-url')"
+									onchange="handleFilePreview('utility', 'utility-preview', 'utility-url')"
 								/>
 								<img
-									id="utility-bill-preview"
+									id="utility-preview"
 									class="preview-img hidden"
 									alt="Utility Bill Preview"
 								/>
+								<input type="hidden" id="utility-url" name="utility-url" />
+							</div>
+
+							<!-- Passport -->
+							<div class="fblk">
+								<label for="passport">Upload Recent Photo</label>
 								<input
-									type="hidden"
-									id="utility-bill-url"
-									name="utility-bill-url"
+									type="file"
+									id="passport"
+									accept="image/*,application/pdf"
+									onchange="handleFilePreview('passport', 'passport-preview', 'passport-url')"
 								/>
+								<img
+									id="passport-preview"
+									class="preview-img hidden"
+									alt="Proof of Identity Preview"
+								/>
+								<input type="hidden" id="passport-url" name="passport-url" />
 							</div>
 
 							<!-- Proof of Identity -->
 							<div class="fblk">
-								<label for="proof-identity">Upload Proof of Identity</label>
+								<label for="proofofId">Upload Proof of Identity</label>
 								<input
 									type="file"
-									id="proof-identity"
+									id="proofofId"
 									accept="image/*,application/pdf"
-									onchange="handleFileUpload('proof-identity', 'proof-identity-preview', 'proof-identity-url')"
+									onchange="handleFilePreview('proofofId', 'proofofId-preview', 'proofofId-url')"
 								/>
 								<img
-									id="proof-identity-preview"
+									id="proofofId-preview"
 									class="preview-img hidden"
 									alt="Proof of Identity Preview"
 								/>
-								<input
-									type="hidden"
-									id="proof-identity-url"
-									name="proof-identity-url"
-								/>
+								<input type="hidden" id="proofofId-url" name="proofofId-url" />
 							</div>
 						</div>
 
 						<!-- Navigation Buttons -->
 						<div class="fblk btnk etraderformgrid">
-							<button type="button" onclick="prevStep(6)" class="whitebtn">
+							<button type="button" onclick="prevStep(7)" class="whitebtn">
 								Previous
 							</button>
-							<button type="submit">Submit</button>
+							<button type="submit" id="formBtn">
+								Submit
+								<div class="loader" id="loader"></div>
+							</button>
 						</div>
 					</div>
 				</form>
@@ -816,10 +896,9 @@
 		</footer>
 
 		<!--Stepper functions && User information submission logic -->
-
 		<script>
 			let currentStep = 1;
-			const totalSteps = 6;
+			const totalSteps = 7;
 			const steps = document.querySelectorAll(".step");
 			const progressText = document.getElementById("progress-text");
 
@@ -876,21 +955,24 @@
 			document.getElementById("multistep-form").onsubmit = async function (e) {
 				e.preventDefault();
 
-				const requiredFields = [
-					"live-photo-url",
-					"utility-bill-url",
-					"proof-identity-url",
-				];
 				const formData = {};
+				const requiredDocFields = ["utility", "passport", "proofofId"];
+				const previewFields = [
+					"utility-preview",
+					"passport-preview",
+					"proofofId-preview",
+				];
+
+				const xtenantid = `demo`;
+				const loadButton = document.getElementById("formBtn");
+				const loader = document.getElementById("loader");
 
 				// Check for missing file uploads
 				let missingFields = [];
-				requiredFields.forEach((field) => {
-					const value = document.getElementById(field).value;
-					if (!value) {
-						missingFields.push(field.replace("-url", "").replace(/-/g, " ")); // Format the field name
-					} else {
-						formData[field] = value; // Add only the URLs to formData
+				requiredDocFields.forEach((field) => {
+					const file = document.getElementById(field).files.length;
+					if (!file) {
+						missingFields.push(field.replace(/-/g, " ")); // Format the field name
 					}
 				});
 
@@ -900,94 +982,172 @@
 						`Please upload the following file(s): ${missingFields.join(", ")}`
 					);
 					return;
+				} else {
+					loadButton.disabled = true;
+					loadButton.style.backgroundColor = "#cdc9c0";
+					loadButton.style.pointerEvents = "none";
+					loadButton.style.cursor = " not-allowed";
+					loader.style.display = "inline-block";
 				}
 
 				// Include other form inputs (excluding file inputs)
 				const inputs = document.querySelectorAll(
 					"#multistep-form input:not([type='file']), #multistep-form select"
 				);
+
 				inputs.forEach((input) => {
-					formData[input.id] = input.value;
+					// Append formdata with bank name and bank code
+					if (input.id === "bank-name") {
+						let sel = document.getElementById(input.id);
+						let bankName = sel.options[sel.selectedIndex].text;
+
+						formData[input.id] = bankName;
+						formData["bank-code"] = input.value;
+					} else {
+						formData[input.id] = input.value;
+					}
 				});
+
+				const clearPreview = () => {
+					previewFields.forEach((preview) => {
+						const previewInp = document.getElementById(preview);
+						previewInp.src = "";
+						previewInp.classList.add("hidden");
+					});
+				};
+
+				const submitDocument = async (rqid, kycDocType, file) => {
+					// Form data with file
+					const kycFormData = new FormData();
+					kycFormData.append("file", file);
+
+					// API endpoint with query parameters
+					const kycdocsUploadUrl = `http://localhost:3000/proxy.php?url=http://api.issl.ng:7777/onboarding-api/1.0/newcustomerv4kycdoc?rqid=${rqid}&kycDocType=${kycDocType}`;
+
+					try {
+						const res = await fetch(kycdocsUploadUrl, {
+							method: "POST",
+							headers: {
+								"X-TENANTID": xtenantid,
+							},
+							body: kycFormData,
+						});
+
+						const result = await res.json();
+
+						if (res.ok) {
+							console.log(
+								`${kycDocType} document uploaded successfully:`,
+								result
+							);
+						} else {
+							console.error(`Error uploading ${kycDocType} document:`, result);
+						}
+					} catch (error) {
+						console.error("Upload error:", error);
+					}
+				};
+
+				const uploadKyc = async (rqid) => {
+					try {
+						await Promise.all(
+							requiredDocFields.map(async (kycDocType) => {
+								const fileInput = document.getElementById(kycDocType);
+								if (fileInput.files.length > 0) {
+									return await submitDocument(
+										rqid,
+										kycDocType,
+										fileInput.files[0]
+									);
+								}
+							})
+						);
+
+						document.getElementById("multistep-form").reset();
+						loadButton.disabled = false;
+						loadButton.style.backgroundColor = "#bfa162";
+						loadButton.style.pointerEvents = "auto";
+						loadButton.style.cursor = "auto";
+						loader.style.display = "none";
+						clearPreview();
+
+						alert("Form submitted successfully for review");
+
+						window.location.href = "/";
+					} catch (error) {
+						alert("Failed while uploading documents. Please try again");
+					}
+				};
 
 				// Prepare data for ISSL API (modify structure if needed)
 				const isslData = {
+					address: formData["home-address"].trim(),
+					address2: formData["residential-address"].trim(),
+					altRelationshipMan: formData["introduced-by"].trim(),
+					bankers: formData["bank-name"].trim(),
+					bankCode: formData["bank-code"].trim(),
+					defaultAccountNo: formData["account-number"].trim(),
+					bankAccountName: formData["account-name"].trim(),
+					bvn: formData["bvn"].trim(),
+					country: formData["country"].trim(),
 					customerType: "I",
 					customerCategory: "I",
-					bankAccountName: formData["account-name"].trim(),
-					bankAccountNo: formData["account-number"].trim(),
-					grossAnnualIncome: formData["annual-income"].trim(),
-					bankName: formData["bank-name"].trim(),
-					bvn: formData["bvn"].trim(),
-					employerName: formData["company-name"].trim(),
-					country: formData["country"].trim(),
 					dob: formData["dob"].trim(),
+					employerAddress: formData["office-address"].trim(),
+					employerName: formData["company-name"].trim(),
+					employmentStatus: formData["self-employed"].trim(),
+					employmentStartDate: formData["employment-start-date"].trim(),
 					email: formData["email"].trim(),
-					marketShare: formData["expected-amount"].trim(),
 					firstName: formData["first-name"].trim(),
 					gender: formData["gender"].trim(),
-					address: formData["home-address"].trim(),
-					phoneRef: formData["home-phone"].trim(),
-					nin: formData["id-number"].trim(),
+					grossAnnualIncome: formData["annual-income"].trim(),
 					id: formData["id-type"].trim(),
-					altRelationshipMan: formData["introduced-by"].trim(),
-					profession: formData["job-title"].trim(),
+					marketShare: formData["expected-amount"].trim(),
+					nin: formData["id-number"].trim(),
 					nearestBusStop: formData["landmark"].trim(),
+					nokFirstName: formData["nok-first-name"].trim(),
+					nokLastName: formData["nok-last-name"].trim(),
+					nokEmailAddress: formData["nok-email"].trim(),
+					nokPhoneNo: formData["nok-phone"].trim(),
+					nokAddress: formData["nok-address"].trim(),
+					nokRelationship: formData["nok-relationship"].trim(),
+					officeEmail: formData["office-email"].trim(),
+					phoneRef: formData["home-phone"].trim(),
+					profession: formData["job-title"].trim(),
 					lastName: formData["last-name"].trim(),
 					lgaOfResidence: formData["lga"].trim(),
-					url: formData["live-photo-url"].trim(),
-					kycdocs: [
-						{
-							documentType: "passport",
-							image: formData["proof-identity-url"].trim(),
-						},
-						{
-							documentType: "utility",
-							image: formData["utility-bill-url"].trim(),
-						},
-					],
+					// lgaOfOrigin: formData["lga"].trim(),
 					maritalStatus: formData["marital-status"].trim(),
-					otherName: formData["middle-name"].trim(),
 					mothersMaidenName: formData["mothers-name"].trim(),
 					nationality: formData["nationality"].trim(),
 					natureofEmployment: formData["occupation"].trim(),
-					employerAddress: formData["office-address"].trim(),
-					officePhoneNo: formData["office-phone"].trim(),
 					notes: formData["other-income"].trim(),
-					religion: formData["religion"].trim(),
-					address2: formData["residential-address"].trim(),
-					employmentStatus: formData["self-employed"].trim(),
+					otherName: formData["middle-name"].trim(),
+					officePhoneNo: formData["office-phone"].trim(),
 					occupationDesc: formData["source-funds"].trim(),
-					state: formData["state"].trim(),
+					religion: formData["religion"].trim(),
+					stateOfOrigin: formData["state"].trim(),
 					title: formData["title"].trim(),
-					// additionalProp1: { a: 1 },
-					// additionalProp2: { a: 1 },
-					// additionalProp3: { a: 1 },
+					// url: formData["live-photo"],
 				};
-
-				console.log(isslData);
-				// await fetchAccessToken();
 
 				const url = `http://localhost:3000/proxy.php?url=http://api.issl.ng:7777/onboarding-api/1.0/newcustomer2/1/${isslData.firstName}/${isslData.lastName}`;
 
-				const xtenantid = `demo`;
-
 				// Send data to ISSL API
-
 				try {
 					const response = await fetch(url, {
 						method: "POST",
 						headers: {
 							"Content-Type": "application/json",
 							"X-TENANTID": xtenantid,
-							// access_token: localStorage.getItem("access_token"),
 						},
 						body: JSON.stringify(isslData),
 					});
+
 					const result = await response.json();
 					if (response.ok) {
-						console.log(result);
-						alert("Form submitted successfully!");
+						const rqid = result.requestId;
+						await uploadKyc(rqid);
 					} else {
 						console.log("Did not upload successfully");
 						alert("Upload failed");
@@ -1012,10 +1172,9 @@
 
 		<!-- File upload function -->
 		<script>
-			function handleFileUpload(inputId, previewId, hiddenInputId) {
+			function handleFilePreview(inputId, previewId, hiddenInputId) {
 				const fileInput = document.getElementById(inputId);
 				const previewImage = document.getElementById(previewId);
-				const hiddenInput = document.getElementById(hiddenInputId);
 
 				if (fileInput.files.length === 0) {
 					alert("Please select a file.");
@@ -1023,8 +1182,6 @@
 				}
 
 				const file = fileInput.files[0];
-				const formData = new FormData();
-				formData.append("user-file", file);
 
 				// Display a preview for image files
 				if (file.type.startsWith("image/")) {
@@ -1035,26 +1192,6 @@
 					};
 					reader.readAsDataURL(file);
 				}
-
-				// Upload the file
-				fetch("http://localhost:8000/upload.php", {
-					method: "POST",
-					body: formData,
-				})
-					.then((response) => response.json())
-					.then((data) => {
-						if (data.success) {
-							alert("File uploaded successfully!");
-							hiddenInput.value = data.fileUrl; // Set the file URL in the hidden input
-						} else {
-							alert("Upload failed: ");
-							console.log(data);
-						}
-					})
-					.catch((error) => {
-						console.log(error);
-						alert("An error occurred: ");
-					});
 			}
 		</script>
 
