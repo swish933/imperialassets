@@ -313,12 +313,12 @@
 								<input
 									type="text"
 									id="state"
-									placeholder="Select State of Origin"
+									placeholder="Enter State of Origin"
 									required
 								/>
 							</div>
 							<div class="fblk">
-								<label for="lga">LGA of Origin *</label>
+								<label for="lga">LGA *</label>
 								<input type="text" id="lga" placeholder="Select LGA" required />
 							</div>
 							<div class="fblk">
@@ -902,6 +902,18 @@
 			const steps = document.querySelectorAll(".step");
 			const progressText = document.getElementById("progress-text");
 
+			// document
+			// 	.querySelectorAll('input[type="number"]')
+			// 	.forEach((elem) => elem.addEventListener("change", formatNumber));
+
+			// function formatNumber(e) {
+			// 	e.target.textContent = Intl.NumberFormat("en-NG").format(
+			// 		e.target.value
+			// 	);
+			// 	console.log(e.target.textContent);
+			// 	console.log(e.target.value);
+			// }
+
 			function showStep(step) {
 				steps.forEach((el, index) => {
 					el.classList.toggle("hidden", index + 1 !== step);
@@ -1115,8 +1127,8 @@
 					phoneRef: formData["home-phone"].trim(),
 					profession: formData["job-title"].trim(),
 					lastName: formData["last-name"].trim(),
-					lgaOfResidence: formData["lga"].trim(),
-					// lgaOfOrigin: formData["lga"].trim(),
+					// lgaOfResidence: formData["lga"].trim(),
+					lgaOfOrigin: formData["lga"].trim(),
 					maritalStatus: formData["marital-status"].trim(),
 					mothersMaidenName: formData["mothers-name"].trim(),
 					nationality: formData["nationality"].trim(),
@@ -1131,7 +1143,7 @@
 					// url: formData["live-photo"],
 				};
 
-				const url = `http://localhost:3000/proxy.php?url=http://api.issl.ng:7777/onboarding-api/1.0/newcustomer2/1/${isslData.firstName}/${isslData.lastName}`;
+				const url = `http://localhost:3000/proxy.php?url=http://api.issl.ng:7777/onboarding-api/1.0/newcustomer2/web/${isslData.firstName}/${isslData.lastName}`;
 
 				// Send data to ISSL API
 				try {
@@ -1170,7 +1182,7 @@
 			}
 		</script>
 
-		<!-- File upload function -->
+		<!-- File preview function -->
 		<script>
 			function handleFilePreview(inputId, previewId, hiddenInputId) {
 				const fileInput = document.getElementById(inputId);
