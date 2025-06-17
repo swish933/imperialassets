@@ -168,53 +168,27 @@
 						<h3>Step 1: Corporate Information</h3>
 						<div class="etraderformgrid">
 							<div class="fblk">
-								<label for="first-name">Company Name *</label>
+								<label for="company-name">Company Name *</label>
 								<input
 									type="text"
-									id="first-name"
+									id="company-name"
 									placeholder="Enter the name of the company"
 									required
 								/>
 							</div>
 							<div class="fblk">
-								<label for="email">Email Address *</label>
-								<input
-									type="email"
-									id="email"
-									placeholder="example@gmail.com"
-									required
-								/>
-							</div>
-							<div class="fblk">
-								<label for="phone">Phone Number *</label>
-								<input
-									type="text"
-									id="phone"
-									placeholder="Enter Phone No"
-									required
-								/>
-							</div>
-							<div class="fblk">
-								<label for="dob">Incorporation *</label>
-								<input type="date" id="dob" required />
-							</div>
-							<div class="fblk">
-								<label for="country">Country *</label>
-								<input
-									type="text"
-									id="country"
-									placeholder="Select Country"
-									required
-								/>
-							</div>
-							<div class="fblk">
-								<label for="landmark">Nearest Landmark *</label>
-								<input
-									type="text"
-									id="landmark"
-									placeholder="Enter Nearest Landmark"
-									required
-								/>
+								<label for="corporate-type">Corporate Entity Type *</label>
+								<select id="corporate-type" required>
+									<option value="">Select Corporate Entity Type</option>
+									<option value="Limited Liability Company">
+										Limited Liability Company
+									</option>
+									<option value="Enterprises">Enterprises</option>
+									<option value="Cooperative Society">
+										Cooperative Society
+									</option>
+									<option value="Government Agency">Government Agency</option>
+								</select>
 							</div>
 							<div class="fblk">
 								<label for="state">State of location *</label>
@@ -235,6 +209,74 @@
 								/>
 							</div>
 							<div class="fblk">
+								<label for="phone">Phone Number *</label>
+								<input
+									type="text"
+									id="phone"
+									placeholder="Enter Phone No"
+									required
+								/>
+							</div>
+							<div class="fblk">
+								<label for="office-phone">Alternate Phone Number</label>
+								<input
+									type="text"
+									id="office-phone"
+									placeholder="Office Telephone"
+								/>
+							</div>
+							<div class="fblk">
+								<label for="email">Email Address *</label>
+								<input
+									type="email"
+									id="email"
+									placeholder="example@gmail.com"
+									required
+								/>
+							</div>
+							<div class="fblk">
+								<label for="website">Website</label>
+								<input
+									type="url"
+									id="website"
+									placeholder="https://www.example.com"
+								/>
+							</div>
+
+							<div class="fblk">
+								<label for="incorporation-no">Incorporation Number *</label>
+								<input
+									type="text"
+									id="incorporation-no"
+									placeholder="Enter Incorporation No."
+									required
+								/>
+							</div>
+							<div class="fblk">
+								<label for="doi">Date Incorporated *</label>
+								<input type="date" id="doi" required />
+							</div>
+
+							<div class="fblk">
+								<label for="country">Country *</label>
+								<input
+									type="text"
+									id="country"
+									placeholder="Enter Country"
+									required
+								/>
+							</div>
+							<!-- <div class="fblk">
+								<label for="landmark">Nearest Landmark *</label>
+								<input
+									type="text"
+									id="landmark"
+									placeholder="Enter Nearest Landmark"
+									required
+								/>
+							</div> -->
+
+							<!-- <div class="fblk">
 								<label for="id-type">ID Type *</label>
 								<select id="id-type" required>
 									<option value="">Select ID Type</option>
@@ -252,46 +294,16 @@
 									placeholder="Enter ID Number"
 									required
 								/>
-							</div>
+							</div> -->
 						</div>
 						<div class="fblk btnk etraderformgrid">
 							<button type="button" onclick="nextStep(1)">Next</button>
 						</div>
 					</div>
 
-					<!-- Step 2: Address Information -->
+					<!-- Step 2: Employment & Income Details -->
 					<div class="step step-2 hidden">
-						<h3>Step 2: Address Information</h3>
-						<div class="etraderformgrid">
-							<div class="fblk">
-								<label for="office-address">Office Address</label>
-								<input
-									type="text"
-									id="office-address"
-									placeholder="Office Address"
-									required
-								/>
-							</div>
-							<div class="fblk">
-								<label for="office-phone">Office Telephone</label>
-								<input
-									type="text"
-									id="office-phone"
-									placeholder="Office Telephone"
-								/>
-							</div>
-						</div>
-						<div class="fblk btnk etraderformgrid">
-							<button type="button" onclick="prevStep(2)" class="whitebtn">
-								Previous
-							</button>
-							<button type="button" onclick="nextStep(2)">Next</button>
-						</div>
-					</div>
-
-					<!-- Step 3: Employment & Income Details -->
-					<div class="step step-3 hidden">
-						<h3>Step 3: Employment & Income Details</h3>
+						<h3>Step 2: Employment & Income Details</h3>
 						<div class="etraderformgrid">
 							<div class="fblk">
 								<label for="occupation">Line of Business</label>
@@ -303,9 +315,9 @@
 								/>
 							</div>
 							<div class="fblk">
-								<label for="annual-income">Annual Revenue</label>
+								<label for="annual-revenue">Annual Revenue</label>
 								<input
-									type="text"
+									type="number"
 									id="annual-revenue"
 									placeholder="Annual Revenue"
 									required
@@ -313,16 +325,16 @@
 							</div>
 						</div>
 						<div class="fblk btnk etraderformgrid">
-							<button type="button" onclick="prevStep(3)" class="whitebtn">
+							<button type="button" onclick="prevStep(2)" class="whitebtn">
 								Previous
 							</button>
-							<button type="button" onclick="nextStep(3)">Next</button>
+							<button type="button" onclick="nextStep(2)">Next</button>
 						</div>
 					</div>
 
-					<!-- Step 4: Additional Information -->
-					<div class="step step-4 hidden">
-						<h3>Step 4: Banking Information</h3>
+					<!-- Step 3: Banking Information -->
+					<div class="step step-3 hidden">
+						<h3>Step 3: Banking Information</h3>
 						<div class="etraderformgrid">
 							<div class="fblk">
 								<label for="bank-name">Bank Name</label>
@@ -360,14 +372,15 @@
 						</div>
 
 						<div class="fblk btnk etraderformgrid">
-							<button type="button" onclick="prevStep(4)" class="whitebtn">
+							<button type="button" onclick="prevStep(3)" class="whitebtn">
 								Previous
 							</button>
-							<button type="button" onclick="nextStep(4)">Next</button>
+							<button type="button" onclick="nextStep(3)">Next</button>
 						</div>
 					</div>
 
-					<div class="step step-5 hidden">
+					<!-- Step 4: Additional Information -->
+					<div class="step step-4 hidden">
 						<h3>Step 4: Additional Information</h3>
 						<div class="etraderformgrid">
 							<div class="fblk">
@@ -395,8 +408,9 @@
 								<label for="expected-amount"
 									>Amount (Expected Annual Turnover)</label
 								>
+
 								<input
-									type="text"
+									type="number"
 									id="expected-amount"
 									placeholder="Expected Annual Amount Turnover"
 									required
@@ -415,7 +429,426 @@
 							<button type="button" onclick="prevStep(4)" class="whitebtn">
 								Previous
 							</button>
-							<button type="submit">Submit</button>
+							<button type="button" onclick="nextStep(4)">Next</button>
+						</div>
+					</div>
+
+					<!-- Step 5: Signatory Info  -->
+					<div class="step step-5 hidden">
+						<h3>Step 5: Signatory Information</h3>
+						<div class="etraderformgrid">
+							<div class="fblk">
+								<label for="signatory-title">Signatory Title *</label>
+								<select id="signatory-title" required>
+									<option value="">Select Prefix</option>
+									<option value="Mr">Mr</option>
+									<option value="Mrs">Mrs</option>
+									<option value="Miss">Miss</option>
+									<option value="Dr">Dr</option>
+								</select>
+							</div>
+							<div class="fblk">
+								<label for="signatory-first-name">Signatory First Name *</label>
+								<input
+									type="text"
+									id="signatory-first-name"
+									placeholder="Enter First Name"
+									required
+								/>
+							</div>
+							<div class="fblk">
+								<label for="signatory-other-names"
+									>Signatory Other Names
+								</label>
+								<input
+									type="text"
+									id="signatory-other-names"
+									placeholder="Enter Signatory Other Names"
+									required
+								/>
+							</div>
+							<div class="fblk">
+								<label for="signatory-last-name">Signatory Last Name *</label>
+								<input
+									type="text"
+									id="signatory-last-name"
+									placeholder="Enter Signatory Last Name"
+									required
+								/>
+							</div>
+							<div class="fblk">
+								<label for="signatory-email">Signatory Email Address *</label>
+								<input
+									type="email"
+									id="signatory-email"
+									placeholder="example@gmail.com"
+									required
+								/>
+							</div>
+							<div class="fblk">
+								<label for="signatory-phone">Signatory Phone Number *</label>
+								<input
+									type="text"
+									id="signatory-phone"
+									placeholder="Enter Signatory Phone No"
+									required
+								/>
+							</div>
+							<div class="fblk">
+								<label for="signatory-dob">Signatory Date of Birth *</label>
+								<input type="date" id="signatory-dob" required />
+							</div>
+							<div class="fblk">
+								<label for="signatory-marital-status"
+									>Signatory Marital Status *</label
+								>
+								<select id="signatory-marital-status" required>
+									<option value="">Select Signatory Marital Status</option>
+									<option value="Single">Single</option>
+									<option value="Married">Married</option>
+									<option value="Divorced">Divorced</option>
+									<option value="Widowed">Widowed</option>
+								</select>
+							</div>
+							<div class="fblk">
+								<label for="signatory-country">Signatory Country *</label>
+								<input
+									type="text"
+									id="signatory-country"
+									placeholder="Select Signatory Country"
+									required
+								/>
+							</div>
+							<div class="fblk">
+								<label for="signatory-gender">Signatory Gender *</label>
+								<select id="signatory-gender" required>
+									<option value="">Select Signatory Gender</option>
+									<option value="Male">Male</option>
+									<option value="Female">Female</option>
+									<option value="Other">Other</option>
+								</select>
+							</div>
+							<div class="fblk">
+								<label for="signatory-religion">Signatory Religion </label>
+								<input
+									type="text"
+									id="signatory-religion"
+									placeholder="Select Signatory Religion"
+									required
+								/>
+							</div>
+							<div class="fblk">
+								<label for="signatory-mothers-name"
+									>Signatory Mother's Maiden Name *</label
+								>
+								<input
+									type="text"
+									id="signatory-mothers-name"
+									placeholder="Enter Signatory Mother's Maiden Name"
+									required
+								/>
+							</div>
+
+							<div class="fblk">
+								<label for="signatory-state">Signatory State of Origin *</label>
+								<input
+									type="text"
+									id="signatory-state"
+									placeholder="Enter Signatory State of Origin"
+									required
+								/>
+							</div>
+							<div class="fblk">
+								<label for="signatory-lga">Signatory LGA *</label>
+								<input
+									type="text"
+									id="signatory-lga"
+									placeholder="Select Signatory LGA"
+									required
+								/>
+							</div>
+							<div class="fblk">
+								<label for="signatory-residential-address"
+									>Signatory Residential Address *</label
+								>
+								<input
+									type="text"
+									id="signatory-residential-address"
+									placeholder="Enter Signatory Residential Address"
+									required
+								/>
+							</div>
+							<div class="fblk">
+								<label for="signatory-id-type">Signatory ID Type *</label>
+								<select id="signatory-id-type" required>
+									<option value="">Select Signatory ID Type</option>
+									<option value="NIN">NIN</option>
+									<option value="Passport">Passport</option>
+									<option value="Driver's License">Driver's License</option>
+									<option value="Voter's Card">Voter's Card</option>
+									<option value="Resident Permit(CERPAC)">
+										Resident Permit(CERPAC)
+									</option>
+									<option value="BVN">BVN</option>
+								</select>
+							</div>
+							<div class="fblk">
+								<label for="signatory-id-number">Signatory ID Number *</label>
+								<input
+									type="text"
+									id="signatory-id-number"
+									placeholder="Enter Signatory ID Number"
+									required
+								/>
+							</div>
+
+							<div class="fblk">
+								<label for="signatory-bvn">Signatory BVN *</label>
+								<input
+									type="text"
+									id="signatory-bvn"
+									placeholder="Enter Signatory BVN"
+									required
+								/>
+							</div>
+						</div>
+
+						<div class="fblk btnk etraderformgrid">
+							<button type="button" onclick="prevStep(5)" class="whitebtn">
+								Previous
+							</button>
+							<button type="button" onclick="nextStep(5)">Next</button>
+						</div>
+					</div>
+
+					<!-- Step 6: Signatory KYC Uploads -->
+					<div class="step step-6 hidden">
+						<h3>Step 6:Upload Signatory Documents</h3>
+						<br />
+						<div class="etraderformgrid">
+							<!-- Utility -->
+							<div class="fblk">
+								<label for="poa"
+									>Upload Signatory's Utility Bill/Proof of Address</label
+								>
+								<input
+									type="file"
+									id="poa"
+									accept="image/*,application/pdf"
+									onchange="handleFilePreview('poa', 'poa-preview', 'poa-url')"
+								/>
+								<img
+									id="poa-preview"
+									class="preview-img hidden"
+									alt="Signatory Bill Preview"
+								/>
+								<input type="hidden" id="poa-url" name="poa-url" />
+							</div>
+
+							<!-- Passport -->
+							<div class="fblk">
+								<label for="photo">Upload Signatory's Recent Photo</label>
+								<input
+									type="file"
+									id="photo"
+									accept="image/*,application/pdf"
+									onchange="handleFilePreview('photo', 'photo-preview', 'photo-url')"
+								/>
+								<img
+									id="photo-preview"
+									class="preview-img hidden"
+									alt="Proof of Identity Preview"
+								/>
+								<input type="hidden" id="photo-url" name="photo-url" />
+							</div>
+
+							<!-- Proof of Identity -->
+							<div class="fblk">
+								<label for="id">Upload Signatory's Proof of Identity</label>
+								<input
+									type="file"
+									id="id"
+									accept="image/*,application/pdf"
+									onchange="handleFilePreview('id', 'id-preview', 'id-url')"
+								/>
+								<img
+									id="id-preview"
+									class="preview-img hidden"
+									alt="Proof of Identity Preview"
+								/>
+								<input type="hidden" id="id-url" name="id-url" />
+							</div>
+
+							<!-- Signature -->
+							<div class="fblk">
+								<label for="signature">Upload Signatory's signature</label>
+								<input
+									type="file"
+									id="signature"
+									accept="image/*,application/pdf"
+									onchange="handleFilePreview('signature', 'signature-preview', 'signature-url')"
+								/>
+								<img
+									id="signature-preview"
+									class="preview-img hidden"
+									alt="Proof of Identity Preview"
+								/>
+								<input type="hidden" id="signature-url" name="signature-url" />
+							</div>
+						</div>
+
+						<!-- Navigation Buttons -->
+						<div class="fblk btnk etraderformgrid">
+							<button type="button" onclick="prevStep(6)" class="whitebtn">
+								Previous
+							</button>
+							<button type="button" onclick="nextStep(6)">Next</button>
+						</div>
+					</div>
+
+					<!-- Step 7: Corporate KYC Uploads -->
+					<div class="step step-7 hidden">
+						<h3>Step 7: KYC Information</h3>
+						<div class="etraderformgrid">
+							<!-- Logo -->
+							<div class="fblk">
+								<label for="logo">Company Logo</label>
+								<input
+									type="file"
+									id="logo"
+									accept="image/*,application/pdf"
+									onchange="handleFilePreview('logo', 'logo-preview', 'logo-url')"
+								/>
+								<img
+									id="logo-preview"
+									class="preview-img hidden"
+									alt="Utility Bill Preview"
+								/>
+								<input type="hidden" id="logo-url" name="logo-url" />
+							</div>
+
+							<!-- Utility -->
+							<div class="fblk">
+								<label for="Proof of Address"
+									>Upload Utility Bill/ Proof of Address *</label
+								>
+								<input
+									type="file"
+									id="Proof of Address"
+									accept="image/*,application/pdf"
+									onchange="handleFilePreview('Proof of Address', 'Proof of Address-preview', 'Proof of Address-url')"
+								/>
+								<img
+									id="Proof of Address-preview"
+									class="preview-img hidden"
+									alt="Proof of Identity Preview"
+								/>
+								<input
+									type="hidden"
+									id="Proof of Address-url"
+									name="Proof of Address-url"
+								/>
+							</div>
+
+							<!-- Certificate of Incorporation -->
+							<div class="fblk">
+								<label for="CertOfInc">Certificate of Incorporation *</label>
+								<input
+									type="file"
+									id="CertOfInc"
+									accept="image/*,application/pdf"
+									onchange="handleFilePreview('CertOfInc', 'CertOfInc-preview', 'CertOfInc-url')"
+								/>
+								<img
+									id="CertOfInc-preview"
+									class="preview-img hidden"
+									alt="Proof of Identity Preview"
+								/>
+								<input type="hidden" id="CertOfInc-url" name="CertOfInc-url" />
+							</div>
+
+							<!-- CAC2 -->
+							<div class="fblk">
+								<label for="CAC2">Upload CAC2 *</label>
+								<input
+									type="file"
+									id="CAC2"
+									accept="image/*,application/pdf"
+									onchange="handleFilePreview('CAC2', 'CAC2-preview', 'CAC2-url')"
+								/>
+								<img
+									id="CAC2-preview"
+									class="preview-img hidden"
+									alt="Proof of Identity Preview"
+								/>
+								<input type="hidden" id="CAC2-url" name="CAC2-url" />
+							</div>
+
+							<!-- CAC7 -->
+							<div class="fblk">
+								<label for="CAC7">Upload CAC7 *</label>
+								<input
+									type="file"
+									id="CAC7"
+									accept="image/*,application/pdf"
+									onchange="handleFilePreview('CAC7', 'CAC7-preview', 'CAC7-url')"
+								/>
+								<img
+									id="CAC7-preview"
+									class="preview-img hidden"
+									alt="Proof of Identity Preview"
+								/>
+								<input type="hidden" id="CAC7-url" name="CAC7-url" />
+							</div>
+
+							<!-- Memorandum and Articles of Association -->
+							<div class="fblk">
+								<label for="MEMART"
+									>Memorandum and Articles of Association *</label
+								>
+								<input
+									type="file"
+									id="MEMART"
+									accept="image/*,application/pdf"
+									onchange="handleFilePreview('MEMART', 'MEMART-preview', 'MEMART-url')"
+								/>
+								<img
+									id="MEMART-preview"
+									class="preview-img hidden"
+									alt="Proof of Identity Preview"
+								/>
+								<input type="hidden" id="MEMART-url" name="MEMART-url" />
+							</div>
+
+							<!-- Board Resolution -->
+							<div class="fblk">
+								<label for="Board Resolution">Upload Recent Photo *</label>
+								<input
+									type="file"
+									id="Board Resolution"
+									accept="image/*,application/pdf"
+									onchange="handleFilePreview('Board Resolution', 'Board Resolution-preview', 'Board Resolution-url')"
+								/>
+								<img
+									id="Board Resolution-preview"
+									class="preview-img hidden"
+									alt="Proof of Identity Preview"
+								/>
+								<input
+									type="hidden"
+									id="Board Resolution-url"
+									name="Board Resolution-url"
+								/>
+							</div>
+						</div>
+						<div class="fblk btnk etraderformgrid">
+							<button type="button" onclick="prevStep(6)" class="whitebtn">
+								Previous
+							</button>
+							<button type="submit" id="formBtn">
+								Submit
+								<div class="loader" id="loader"></div>
+							</button>
 						</div>
 					</div>
 				</form>
@@ -582,7 +1015,7 @@
 			</div>
 		</footer>
 
-		<!-- Toggle Menu Fn -->
+		<!-- Toggle Menu Function -->
 		<script>
 			function toggleMenu() {
 				const links = document.querySelector(".links");
@@ -621,7 +1054,7 @@
 		<!--Stepper functions && User information submission logic -->
 		<script>
 			let currentStep = 1;
-			const totalSteps = 5;
+			const totalSteps = 7;
 			const steps = document.querySelectorAll(".step");
 			const progressText = document.getElementById("progress-text");
 
@@ -645,9 +1078,9 @@
 				stepFields.forEach((field) => {
 					if (!field.value.trim()) {
 						isValid = false;
-						field.classList.add("error"); // Highlight the empty fields
+						field.classList.add("form-error"); // Highlight the empty fields
 					} else {
-						field.classList.remove("error");
+						field.classList.remove("form-error");
 					}
 				});
 
@@ -674,23 +1107,236 @@
 				}
 			}
 
-			// Submit data
+			// Submit form data
 			document.getElementById("multistep-form").onsubmit = async function (e) {
 				e.preventDefault();
 
 				const formData = {};
-				console.log(formData);
-				const inputs = document.querySelectorAll(
-					"#multistep-form input, #multistep-form select"
-				);
-				inputs.forEach((input) => {
-					formData[input.id] = input.value;
-				});
 
-				const url = `http://localhost:3000/proxy.php?url=http://api.issl.ng:7777/onboarding-api/1.0/newcustomer2/1/${isslData.firstName}/${isslData.lastName}`;
+				const requiredDocFields = [
+					"CertOfInc",
+					"Proof of Address",
+					"CAC2",
+					"CAC7",
+					"MEMART",
+					"Board Resolution",
+				];
+
+				const signatoryDocFields = ["", ""];
+
+				// const kycFieldNames = [
+				// 	"Photo",
+				// 	"CertOfInc",
+				// 	"Proof of Address",
+				// 	"CAC2",
+				// 	"CAC7",
+				// 	"MEMART",
+				// 	"Board Resolution",
+				// ];
+
+				const previewFields = [
+					"Photo-preview",
+					"Proof of Address-preview",
+					"CertOfInc-preview",
+					"CAC2-preview",
+					"CAC7-preview",
+					"MEMART-preview",
+					"Board Resolution-preview",
+				];
 
 				const xtenantid = `demo`;
+				const loadButton = document.getElementById("formBtn");
+				const loader = document.getElementById("loader");
 
+				let missingFields = [];
+				requiredDocFields.forEach((field) => {
+					const file = document.getElementById(field).files.length;
+					if (!file) {
+						missingFields.push(field.replace(/-/g, " ")); // Format the field name
+					}
+				});
+
+				// If any required file is missing, show an error
+				if (missingFields.length > 0) {
+					alert(
+						`Please upload the following file(s): ${missingFields.join(", ")}`
+					);
+					return;
+				} else {
+					loadButton.disabled = true;
+					loadButton.style.backgroundColor = "#cdc9c0";
+					loadButton.style.pointerEvents = "none";
+					loadButton.style.cursor = " not-allowed";
+					loader.style.display = "inline-block";
+				}
+
+				const inputs = document.querySelectorAll(
+					"#multistep-form input:not([type='file']), #multistep-form select"
+				);
+
+				inputs.forEach((input) => {
+					// Append formdata with bank name and bank code
+					if (input.id === "bank-name") {
+						let sel = document.getElementById(input.id);
+						let bankName = sel.options[sel.selectedIndex].text;
+
+						formData[input.id] = bankName;
+						formData["bank-code"] = input.value;
+					} else {
+						formData[input.id] = input.value;
+					}
+				});
+
+				const clearPreview = () => {
+					previewFields.forEach((preview) => {
+						const previewInp = document.getElementById(preview);
+						previewInp.src = "";
+						previewInp.classList.add("hidden");
+					});
+				};
+
+				const submitDocument = async (rqid, kycDocType, file) => {
+					// Form data with file
+					const kycFormData = new FormData();
+					kycFormData.append("file", file);
+
+					// API endpoint with query parameters
+					const kycdocsUploadUrl = `http://localhost:3000/proxy.php?url=http://api.issl.ng:7777/onboarding-api/1.0/newcustomerv4kycdoc?rqid=${rqid}&kycDocType=${kycDocType}`;
+
+					try {
+						const res = await fetch(kycdocsUploadUrl, {
+							method: "POST",
+							headers: {
+								"X-TENANTID": xtenantid,
+							},
+							body: kycFormData,
+						});
+
+						const result = await res.json();
+
+						if (res.ok) {
+							console.log(
+								`${kycDocType} document uploaded successfully:`,
+								result
+							);
+						} else {
+							console.error(`Error uploading ${kycDocType} document:`, result);
+						}
+					} catch (error) {
+						console.error("Upload error:", error);
+					}
+				};
+
+				const uploadKyc = async (rqid) => {
+					const logo = document.getElementById("Photo");
+
+					//if there's a logo file include it required documents to be uploaded
+					if (logo.files.length > 0) {
+						requiredDocFields = [...requiredDocFields, "Photo"];
+					}
+
+					try {
+						await Promise.all(
+							requiredDocFields.map(async (kycDocType) => {
+								const fileInput = document.getElementById(kycDocType);
+								if (fileInput.files.length > 0) {
+									return await submitDocument(
+										rqid,
+										kycDocType,
+										fileInput.files[0]
+									);
+								}
+							})
+						);
+
+						document.getElementById("multistep-form").reset();
+						loadButton.disabled = false;
+						loadButton.style.backgroundColor = "#bfa162";
+						loadButton.style.pointerEvents = "auto";
+						loadButton.style.cursor = "auto";
+						loader.style.display = "none";
+						clearPreview();
+
+						alert("Form submitted successfully for review");
+
+						window.location.href = "/";
+					} catch (error) {
+						alert("Failed while uploading documents. Please try again");
+					}
+				};
+
+				function slugify(text) {
+					return text
+						.toLowerCase()
+						.trim()
+						.replace(/\s+/g, "_")
+						.replace(/\-\-+/g, "_"); // Replace multiple hyphens with single hyphen
+					// .replace(/[^\w\-]+/g, "") // Remove non-word chars except hyphens
+				}
+
+				const isslData = {
+					// Customer Information
+					customerType: "C",
+					customerCategory: "C",
+					address: formData["residential-address"].trim(),
+					altRelationshipMan: formData["introduced-by"].trim(),
+					bankers: formData["bank-name"].trim(),
+					bankCode: formData["bank-code"].trim(),
+					defaultAccountNo: formData["account-number"].trim(),
+					bankAccountName: formData["account-name"].trim(),
+					bvn: formData["bvn"].trim(),
+					country: formData["country"].trim(),
+					shortName: formData["company-name"].trim(),
+					name: formData["company-name"].trim(),
+					typeOfBuss: formData["corporate-type"].trim(),
+					verificationDate: formData["doi"].trim(),
+					email: formData["email"].trim(),
+					grossAnnualIncome: formData["annual-revenue"].trim(),
+					rcno: formData["incorporation-no"].trim(),
+					marketShare: formData["expected-amount"].trim(),
+					phoneRef: formData["phone"].trim(),
+					officeEmail: formData["email"].trim(),
+					notes: formData["office-phone"].trim(),
+					occupationDesc: formData["source-funds"].trim(),
+					stateOfOrigin: formData["state"].trim(),
+					url: formData["website"].trim(),
+					// vatregNo: formData["incorporation-no"].trim(),
+					// natureofEmployment: formData["occupation"].trim(),
+					// notes: formData["other-income"].trim(),
+
+					// Signatory information
+					signatorys: [
+						{
+							title: formData["signatory-title"].trim(),
+							firstName: formData["signatory-first-name"].trim(),
+							otherName: formData["signatory-other-names"].trim(),
+							lastName: formData["signatory-last-name"].trim(),
+							email: formData["signatory-email"].trim(),
+							phoneNo: formData["signatory-phone"].trim(),
+							dob: formData["signatory-dob"].trim(),
+							maritalStatus: formData["signatory-marital-status"].trim(),
+							country: formData["signatory-country"].trim(),
+							state: formData["signatory-state"].trim(),
+							lgaOfOrigin: formData["signatory-lga"].trim(),
+							religion: formData["signatory-religion"].trim(),
+							mothersMaidenName: formData["signatory-mothers-name"].trim(),
+							address: formData["signatory-residential-address"].trim(),
+							nin: formData["signatory-id-number"].trim(),
+							gender: formData["signatory-gender"].trim(),
+							bvn: formData["signatory-bvn"].trim(),
+							// employerName: formData["signatory-gender"].trim(),
+							// natureOfEmployment: 	formData["signatory-nature-of-employment"].trim(),
+						},
+					],
+				};
+
+				console.log(isslData);
+
+				const url = `http://localhost:3000/proxy.php?url=http://api.issl.ng:7777/onboarding-api/1.0/newcustomer2/web/${slugify(
+					isslData.name
+				)}/${slugify(isslData.name)}`;
+
+				// Send data to ISSL API
 				try {
 					const response = await fetch(url, {
 						method: "POST",
@@ -705,41 +1351,16 @@
 					const result = await response.json();
 					if (response.ok) {
 						console.log(result);
-						alert("Form submitted successfully!");
+						const rqid = result.requestId;
+						await uploadKyc(rqid);
 					} else {
-						console.log("Did not upload successfully");
-						alert("Upload failed");
+						console.log("Form submission failed failed");
+						alert("Form submission failed");
 					}
 				} catch (error) {
 					console.error("Error submitting form:", error);
 					alert("An error occurred while submitting the form.");
 				}
-
-				// Send data to PHP endpoint
-
-				// try {
-				// 	const response = await fetch(
-				// 		"https://marketreports.vercel.app/api/form-submission/",
-				// 		{
-				// 			method: "POST",
-				// 			headers: {
-				// 				"Content-Type": "application/json",
-				// 			},
-				// 			body: JSON.stringify(formData),
-				// 		}
-				// 	);
-
-				// 	const result = await response.json();
-				// 	if (result.status === "success") {
-				// 		alert("Form submitted successfully!");
-				// 		window.location.href = "/";
-				// 	} else {
-				// 		alert("Error: " + result.message);
-				// 	}
-				// } catch (error) {
-				// 	console.error("Error submitting form:", error);
-				// 	alert("An error occurred while submitting the form.");
-				// }
 			};
 
 			// Initial step setup
@@ -833,6 +1454,31 @@
 
 			// Initialize bank list on page load
 			fetchBankList();
+		</script>
+
+		<!-- Handle file preview -->
+		<script>
+			function handleFilePreview(inputId, previewId, hiddenInputId) {
+				const fileInput = document.getElementById(inputId);
+				const previewImage = document.getElementById(previewId);
+
+				if (fileInput.files.length === 0) {
+					alert("Please select a file.");
+					return;
+				}
+
+				const file = fileInput.files[0];
+
+				// Display a preview for image files
+				if (file.type.startsWith("image/")) {
+					const reader = new FileReader();
+					reader.onload = function (e) {
+						previewImage.src = e.target.result;
+						previewImage.classList.remove("hidden");
+					};
+					reader.readAsDataURL(file);
+				}
+			}
 		</script>
 	</body>
 </html>

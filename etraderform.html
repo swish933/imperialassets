@@ -934,9 +934,9 @@
 				stepFields.forEach((field) => {
 					if (!field.value.trim()) {
 						isValid = false;
-						field.classList.add("error"); // Highlight the empty fields
+						field.classList.add("form-error"); // Highlight the empty fields
 					} else {
-						field.classList.remove("error");
+						field.classList.remove("form-error");
 					}
 				});
 
@@ -1161,8 +1161,8 @@
 						const rqid = result.requestId;
 						await uploadKyc(rqid);
 					} else {
-						console.log("Did not upload successfully");
-						alert("Upload failed");
+						console.log("Form submission failed failed");
+						alert("Form sunmission failed");
 					}
 				} catch (error) {
 					console.error("Error submitting form:", error);

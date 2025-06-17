@@ -1924,6 +1924,10 @@ footer a {
 	cursor: not-allowed;
 }
 
+.form-error {
+	outline: 1px solid hsla(0, 69%, 53%, 0.956);
+}
+
 /* .footerbtm a {
   user-select: none;
   pointer-events: none;
